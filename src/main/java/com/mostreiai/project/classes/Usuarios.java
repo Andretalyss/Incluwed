@@ -23,50 +23,79 @@ public class Usuarios {
     @Column(name="email")
     private String email;
 
+    @Column(name="senha")
+    private String senha;
+
     @Column(name="telefone")
     private String telefone;
 
+    @Column(name="cep")
+    private String cep;
+
+    @Column(name="estado")
+    private String estado;
+
+    @Column(name="cidade")
+    private String cidade;
+
+    @Column(name="data")
+    private String data;
+    
     public Usuarios(){
 
     }
 
-    public Usuarios(String nome, String sobrenome, String email, String telefone){
+    public Usuarios(String nome, String sobrenome, String email,String senha, String telefone, String cep, String estado, String cidade, String data){
         this.nome = nome;
         this.sobrenome = sobrenome;
         this.email = email;
+        this.senha = senha;
         this.telefone = telefone;
+        this.cep = cep;
+        this.estado = estado;
+        this.cidade = cidade;
+        this.data = data;
     }
 
+    public Long getId(){
+        return id;
+    }
 
     public String getNome(){
         return nome;
-    }
-
-    public void setNome(String nome){
-        this.nome = nome;
     }
 
     public String getSobrenome(){
         return sobrenome;
     }
 
-    public void setSobrenome(String sobrenome){
-        this.sobrenome = sobrenome;
-    }
-    
     public String getEmail(){
         return email;
-    }
-
-    public void setEmail(String email){
-        this.email = email;
     }
 
     public String getTelefone(){
         return telefone;
     }
 
-    public void setTelefone(String telefone){
-        this.telefone = telefone;
+    public String getCep(){
+        return cep;
     }
+
+    public String getEstado(){
+        return estado;
+    }
+
+    public String getCidade(){
+        return cidade;
+    }
+
+    public String getData(){
+        return data;
+   
+    }
+    public String getSenha(){
+        return senha;
+    }
+
+
 }
