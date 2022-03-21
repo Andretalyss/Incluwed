@@ -4,5 +4,5 @@ CREATE TABLE usuarios (id serial primary key, nome varchar(255), sobrenome varch
 );
 
 INSERT INTO usuarios(nome, sobrenome, email, senha, telefone, cep, estado, cidade, nascimento) values(
-    'André', 'Talysson', 'atvdiniz@gmail.com', '1234567819', '83999519413', '58070510', 'PB', 'João Pessoa', '08/10/1999'
+    'André', 'Talysson', 'atvdiniz@example.com', '1234567819', '839999999', '5838011', 'PB', 'João Pessoa', '12/11/1999'
 );
