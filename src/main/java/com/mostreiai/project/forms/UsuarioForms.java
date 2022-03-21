@@ -19,9 +19,6 @@ public class UsuarioForms {
     @NotNull @NotEmpty @Length(max = 25)
     private String email;
 
-    @NotNull @NotEmpty @Size(min = 8, max = 18)
-    private String senha;
-
     @NotNull @NotEmpty @Length(max = 12)
     private String telefone;
 
@@ -35,7 +32,10 @@ public class UsuarioForms {
     private String cidade;
 
     @NotNull @NotEmpty @Length(max = 12)
-    private String data;
+    private String nascimento;
+
+    @NotNull @NotEmpty @Size(min=8, max=12)
+    private String senha;
 
 
     public String getNome(){
@@ -59,8 +59,8 @@ public class UsuarioForms {
     public String getCidade(){
         return cidade;
     }
-    public String getData(){
-        return data;
+    public String getNascimento(){
+        return nascimento;
     }
     public String getSenha(){
         return senha;
@@ -87,16 +87,14 @@ public class UsuarioForms {
     public void setCidade(String cidade){
         this.cidade = cidade;
     }
-    public void setData(String data){
-        this.data = data;
+    public void setNascimento(String nascimento){
+        this.nascimento = nascimento;
     }
     public void setSenha(String senha){
         this.senha = senha;
     }
-
-
     public Usuarios converter() {
-        return new Usuarios(nome, sobrenome, email, senha, telefone, cep, estado, cidade, data);
+        return new Usuarios(nome, sobrenome, email, telefone, senha, cep, estado, cidade, nascimento);
     }
 
 }

@@ -7,7 +7,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
-@Table(name="usuarios")
+@Table(name="usuarios", schema="public")
 @Entity
 public class Usuarios {
     
@@ -38,14 +38,14 @@ public class Usuarios {
     @Column(name="cidade")
     private String cidade;
 
-    @Column(name="data")
-    private String data;
+    @Column(name="nascimento")
+    private String nascimento;
     
     public Usuarios(){
 
     }
 
-    public Usuarios(String nome, String sobrenome, String email,String senha, String telefone, String cep, String estado, String cidade, String data){
+    public Usuarios(String nome, String sobrenome, String email,String senha, String telefone, String cep, String estado, String cidade, String nascimento){
         this.nome = nome;
         this.sobrenome = sobrenome;
         this.email = email;
@@ -54,7 +54,7 @@ public class Usuarios {
         this.cep = cep;
         this.estado = estado;
         this.cidade = cidade;
-        this.data = data;
+        this.nascimento = nascimento;
     }
 
     public Long getId(){
@@ -89,8 +89,8 @@ public class Usuarios {
         return cidade;
     }
 
-    public String getData(){
-        return data;
+    public String getNascimento(){
+        return nascimento;
    
     }
     public String getSenha(){
@@ -98,4 +98,23 @@ public class Usuarios {
     }
 
 
+    public void setSenha(String senha){
+        this.senha = senha;
+    }
+
+    public void setTelefone(String telefone){
+        this.telefone = telefone;
+    }
+
+    public void setEmail(String email){
+        this.email = email;
+    }
+
+    public void setCep(String cep){
+        this.cep = cep;
+    }
+
+    public void setNascimento(String nascimento){
+        this.nascimento = nascimento;
+    }
 }

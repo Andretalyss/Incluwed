@@ -1,12 +1,8 @@
-create table usuarios (
-    id serial primary key,
-    nome varchar(255) not null,
-    sobrenome varchar(255) not null,
-    email varchar(255) not null,
-    senha varchar(255) not null,
-    telefone varchar(255) not null,
-    cep varchar(255), not null,
-    estado varchar(255) not null,
-    cidade varchar(255) not null,
-    nascimento varchar(255) not null
+DROP TABLE IF EXISTS usuarios;
+CREATE TABLE usuarios (id serial primary key, nome varchar(255), sobrenome varchar(255), email varchar(255), senha varchar(255),
+    telefone varchar(255), cep varchar(255), estado varchar(255), cidade varchar(255), nascimento varchar(255)    
+);
+
+INSERT INTO usuarios(nome, sobrenome, email, senha, telefone, cep, estado, cidade, nascimento) values(
+    'André', 'Talysson', 'atvdiniz@gmail.com', '1234567819', '83999519413', '58070510', 'PB', 'João Pessoa', '08/10/1999'
 );
