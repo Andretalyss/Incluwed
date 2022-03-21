@@ -1,27 +1,44 @@
 package com.mostreiai.project.classes;
 
-import java.util.List;
-import java.util.stream.Collectors;
+import org.springframework.data.domain.Page;
 
 public class UsuariosDto {
+    private Long id;
     private String nome;
-    private String sobrenome;
+    private String email;
+    private String estado;
+    private String cidade;
 
     public UsuariosDto(Usuarios user){
+        this.id = user.getId();
         this.nome = user.getNome();
-        this.sobrenome = user.getSobrenome();
+        this.email = user.getEmail();
+        this.estado = user.getEstado();
+        this.cidade = user.getCidade();
+    }
+
+    public Long getId(){
+        return id;
     }
 
     public String getNome(){
         return nome;
     }
-
-    public String getSobrenome(){
-        return sobrenome;
+    
+    public String getEmail(){
+        return email;
     }
 
-    public static List<UsuariosDto> convert(List<Usuarios> user) {
-        return user.stream().map(UsuariosDto::new).collect(Collectors.toList());
+    public String getEstado(){
+        return estado;
+    }
+
+    public String getCidade(){
+        return cidade;
+    }
+
+    public static Page<UsuariosDto> convert(Page<Usuarios> user) {
+        return user.map(UsuariosDto::new);
     }
 
 }
