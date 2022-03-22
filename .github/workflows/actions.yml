@@ -18,7 +18,7 @@ jobs:
         distribution: 'temurin'
         cache: maven
     - name: Buildando imagem jar
-      run: mvn clean package --file pom.xml
+      run: mvn clean package -DskipTests --file pom.xml
     - name: Gerando pasta target pro docker build
       uses: actions/upload-artifact@v3
       with:
