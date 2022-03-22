@@ -13,6 +13,6 @@ services:
   backend:
     image: andrezin10/back-incluwed:1.0.0
     ports:
-      8080:8080
+     - 8080:8080
     links:
       - database
