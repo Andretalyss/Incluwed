@@ -30,6 +30,9 @@ jobs:
     steps:
     - uses: actions/checkout@v2
     - uses: actions/download-artifact@v3
+      with: 
+        name: target
+        path: target/
     - name: Docker login
       env:
         DOCKER_USER: ${{secrets.DOCKER_USER}}
