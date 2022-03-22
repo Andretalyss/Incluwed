@@ -1,9 +1,18 @@
 version: '3'
 
 services:
-  postgres-banco:
+  database:
     image: postgres
     environment:
-      POSTGRES_PASSWORD: "1234"
+      POSTGRES_PASSWORD: "1234abc"
     ports:
       - "5432:5432"
+#     volumes:
+#       - /srv/postgres:/var/lib/postgresql/data
+  
+  backend:
+    image: andrezin10/back-incluwed:1.0.0
+    ports:
+      8080:8080
+    links:
+      - database
