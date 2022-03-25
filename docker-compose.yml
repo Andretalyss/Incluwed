@@ -4,6 +4,6 @@ services:
   postgres-banco:
     image: postgres
     environment:
-      POSTGRES_PASSWORD: "1234"
+      POSTGRES_PASSWORD: "1234abc"
     ports:
       - "5432:5432"
