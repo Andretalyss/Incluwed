@@ -5,6 +5,9 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 @Table(name="postagens", schema="public")
@@ -12,22 +15,22 @@ import javax.persistence.Table;
 public class Postagens {
 
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
-    Long id;
+    private Long id;
 
     @Column(name="titulo")
-    String titulo;
+    private String titulo;
 
     @Column(name="conteudo")
-    String msg;
+    private String msg;
 
-    @Column(name="usuario")
-    UsuariosDto user;
+    @ManyToOne
+    private Usuarios user;
 
     @Column(name="nota")
-    int nota;
+    private int nota;
 
-    @Column(name="data")
-    String data;
+    @Column(name="datap")
+    private String data;
 
     public Postagens(){
 
@@ -41,7 +44,7 @@ public class Postagens {
         return msg;
     }
 
-    public UsuariosDto getUser(){
+    public Usuarios getUser(){
         return user;
     }
 
@@ -66,7 +69,7 @@ public class Postagens {
         this.msg = msg;
     }
 
-    public void setUser(UsuariosDto user){
+    public void setUser(Usuarios user){
         this.user = user;
     }
 

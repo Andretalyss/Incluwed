@@ -21,23 +21,13 @@ public class PostagensController {
     private PostsRepository postsRepository;
 
     @GetMapping
-    public Page<PostagensDto> ListaPostagens(@RequestParam(required = false) String nome,
-            @RequestParam(required = false) String email, @RequestParam(required =false) String titulo,
+    public Page<PostagensDto> ListaPostagens(@RequestParam(required = false) String titulo,
             @RequestParam int pagina, @RequestParam int qtd) {
 
         Pageable paginacao = PageRequest.of(pagina, qtd);
-
-        if(nome != null ){
-            Page<Postagens> posts = postsRepository.findByNome(nome, paginacao);
-            return PostagensDto.convert(posts);
-        }else if (titulo != null){
-            Page<Postagens> posts = postsRepository.findByTitulo(nome, paginacao);
-            return PostagensDto.convert(posts);
-        }
-        else {
-            Page<Postagens> posts = postsRepository.findAll(paginacao);
-            return PostagensDto.convert(posts);
-        }
+        Page<Postagens> posts = postsRepository.findAll(paginacao);
+        return PostagensDto.convert(posts);
+       
 
     }
     

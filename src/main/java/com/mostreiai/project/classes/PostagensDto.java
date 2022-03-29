@@ -5,7 +5,7 @@ import org.springframework.data.domain.Page;
 public class PostagensDto {
     private String titulo;
     private String msg;
-    private UsuariosDto user;
+    private Usuarios user;
     private int nota;
     private String data;
 
@@ -33,11 +33,11 @@ public class PostagensDto {
         this.nota = nota;
     }
 
-    public UsuariosDto getUser() {
-        return user;
+    public Long getUser() {
+        return user.getId();
     }
 
-    public void setUser(UsuariosDto user) {
+    public void setUser(Usuarios user) {
         this.user = user;
     }
 
