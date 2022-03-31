@@ -1,21 +1,27 @@
-package com.mostreiai.project.classes;
+package com.mostreiai.project.forms;
 
-import org.springframework.data.domain.Page;
 
-public class PostagensDto {
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
+
+import com.mostreiai.project.classes.Postagens;
+
+import org.hibernate.validator.constraints.Length;
+
+public class PostagensForms {
+
+    @NotNull @NotEmpty @Length(max=20)
     private String titulo;
-    private String msg;
-    private Long usuario;
-    private int nota;
-    private String data;
 
-    public PostagensDto(Postagens posts){
-        this.setTitulo(posts.getTitulo());
-        this.setMsg(posts.getMsg());
-        this.setUsuario(posts.getUsuario());
-        this.setNota(posts.getNota());
-        this.setData(posts.getData());
-    }
+    @NotNull @NotEmpty @Length(max=120)
+    private String msg;
+
+    private Long usuario;
+
+    private int nota;
+
+    @NotNull @NotEmpty @Length(max=10)
+    private String data;
 
     public String getData() {
         return data;
@@ -37,7 +43,7 @@ public class PostagensDto {
         return usuario;
     }
 
-    public void setUsuario(Long usuario ) {
+    public void setUser(Long usuario ) {
         this.usuario  = usuario;
     }
 
@@ -57,7 +63,8 @@ public class PostagensDto {
         this.titulo = titulo;
     }
 
-    public static Page<PostagensDto> convert(Page<Postagens> posts){
-        return posts.map(PostagensDto::new);
+    public Postagens converter(Long usuario ) {
+        return new Postagens(titulo, msg, usuario, nota, data);
     }
+
 }

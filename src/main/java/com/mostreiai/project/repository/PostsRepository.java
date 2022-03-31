@@ -8,5 +8,5 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface PostsRepository extends JpaRepository<Postagens, Long> {
     Page<Postagens> findByTitulo(String titulo, Pageable paginacao);
-    // Page<Postagens> findByNome(String nome, Pageable paginacao);
+    Page<Postagens> findByUsuario(Long usuario, Pageable paginacao);
 }

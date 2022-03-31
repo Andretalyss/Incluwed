@@ -5,9 +5,6 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 @Table(name="postagens", schema="public")
@@ -23,8 +20,8 @@ public class Postagens {
     @Column(name="conteudo")
     private String msg;
 
-    @ManyToOne
-    private Usuarios user;
+    @Column(name="usuario")
+    private Long usuario;
 
     @Column(name="nota")
     private int nota;
@@ -36,6 +33,14 @@ public class Postagens {
 
     }
 
+    public Postagens(String titulo, String msg, Long usuario, int nota, String data){
+        this.titulo = titulo;
+        this.msg = msg;
+        this.usuario = usuario;
+        this.nota = nota;
+        this.data = data;
+    }
+
     public String getTitulo(){
         return titulo;
     }
@@ -44,8 +49,8 @@ public class Postagens {
         return msg;
     }
 
-    public Usuarios getUser(){
-        return user;
+    public Long getUsuario(){
+        return usuario;
     }
 
     public int getNota(){
@@ -69,8 +74,8 @@ public class Postagens {
         this.msg = msg;
     }
 
-    public void setUser(Usuarios user){
-        this.user = user;
+    public void setUsuario(Long usuario){
+        this.usuario  = usuario;
     }
 
     public void setNota(int nota){

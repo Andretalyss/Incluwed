@@ -1,6 +1,7 @@
 package com.mostreiai.project.classes;
 
 import javax.persistence.Table;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -40,7 +41,7 @@ public class Usuarios {
 
     @Column(name="nascimento")
     private String nascimento;
-    
+
     public Usuarios(){
 
     }
@@ -96,7 +97,6 @@ public class Usuarios {
     public String getSenha(){
         return senha;
     }
-
 
     public void setSenha(String senha){
         this.senha = senha;
