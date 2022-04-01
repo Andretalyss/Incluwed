@@ -1,0 +1,16 @@
+/home/rafael/Incluwed/src/main/java/com/mostreiai/project/classes/UsuariosDto.java
+/home/rafael/Incluwed/src/main/java/com/mostreiai/project/config/ErroDeValidacaoHadler.java
+/home/rafael/Incluwed/src/main/java/com/mostreiai/project/controller/UsuariosController.java
+/home/rafael/Incluwed/src/main/java/com/mostreiai/project/controller/PostRankingController.java
+/home/rafael/Incluwed/src/main/java/com/mostreiai/project/repository/PostsRepository.java
+/home/rafael/Incluwed/src/main/java/com/mostreiai/project/repository/UsuariosRepository.java
+/home/rafael/Incluwed/src/main/java/com/mostreiai/project/classes/Postagens.java
+/home/rafael/Incluwed/src/main/java/com/mostreiai/project/forms/AttPostsForm.java
+/home/rafael/Incluwed/src/main/java/com/mostreiai/project/forms/PostagensForms.java
+/home/rafael/Incluwed/src/main/java/com/mostreiai/project/controller/PostagensController.java
+/home/rafael/Incluwed/src/main/java/com/mostreiai/project/forms/AttUsuariosForm.java
+/home/rafael/Incluwed/src/main/java/com/mostreiai/project/config/ErroDeFormularioDto.java
+/home/rafael/Incluwed/src/main/java/com/mostreiai/project/classes/Usuarios.java
+/home/rafael/Incluwed/src/main/java/com/mostreiai/project/forms/UsuarioForms.java
+/home/rafael/Incluwed/src/main/java/com/mostreiai/project/classes/PostagensDto.java
+/home/rafael/Incluwed/src/main/java/com/mostreiai/project/ProjectApplication.java

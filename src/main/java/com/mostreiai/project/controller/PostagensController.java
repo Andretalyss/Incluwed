@@ -69,7 +69,7 @@ public class PostagensController {
         if ( userCheck.isPresent()){
             Postagens posts = form.converter(usuario_id);
             postsRepository.save(posts);
-            URI uri = uriBuilder.path("/posts/{id}").buildAndExpand(posts.getId()).toUri();
+            URI uri = uriBuilder.path("/post/{id}").buildAndExpand(posts.getId()).toUri();
             return ResponseEntity.created(uri).body(new PostagensDto(posts));     
         }
 
