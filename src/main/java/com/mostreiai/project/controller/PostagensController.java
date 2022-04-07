@@ -40,13 +40,13 @@ public class PostagensController {
     private UsuariosRepository usuariosRepository;
 
     @GetMapping
-    public Page<PostagensDto> ListaPostagens(@RequestParam(required = false) String titulo, @RequestParam(required=false) Long usuario_id,
+    public Page<PostagensDto> ListaPostagens(@RequestParam(required = false) String lugar, @RequestParam(required=false) Long usuario_id,
             @RequestParam int pagina, @RequestParam int qtd) {
 
         Pageable paginacao = PageRequest.of(pagina, qtd);
 
-        if (titulo != null){
-            Page<Postagens> posts = postsRepository.findByTitulo(titulo, paginacao);
+        if (lugar != null){
+            Page<Postagens> posts = postsRepository.findByLugar(lugar, paginacao);
             return PostagensDto.convert(posts);
         }
 

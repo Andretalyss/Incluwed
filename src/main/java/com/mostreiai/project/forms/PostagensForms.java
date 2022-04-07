@@ -14,6 +14,9 @@ public class PostagensForms {
     private String titulo;
 
     @NotNull @NotEmpty @Length(max=120)
+    private String lugar;
+
+    @NotNull @NotEmpty @Length(max=120)
     private String msg;
 
     private Long usuario;
@@ -63,8 +66,16 @@ public class PostagensForms {
         this.titulo = titulo;
     }
 
+    public String getLugar() {
+        return lugar;
+    }
+
+    public void setLugar(String lugar) {
+        this.lugar = lugar;
+    }
+
     public Postagens converter(Long usuario ) {
-        return new Postagens(titulo, msg, usuario, nota, data);
+        return new Postagens(titulo, lugar, msg, usuario, nota, data);
     }
 
 }

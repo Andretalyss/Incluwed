@@ -17,6 +17,9 @@ public class Postagens {
     @Column(name="titulo")
     private String titulo;
 
+    @Column(name="lugar")
+    private String lugar;
+
     @Column(name="conteudo")
     private String msg;
 
@@ -33,8 +36,9 @@ public class Postagens {
 
     }
 
-    public Postagens(String titulo, String msg, Long usuario, int nota, String data){
+    public Postagens(String titulo, String lugar, String msg, Long usuario, Integer nota, String data){
         this.titulo = titulo;
+        this.lugar = lugar;
         this.msg = msg;
         this.usuario = usuario;
         this.nota = nota;
@@ -86,4 +90,11 @@ public class Postagens {
         this.data = data;
     }
 
+    public String getLugar() {
+        return lugar;
+    }
+
+    public void setLugar(String lugar) {
+        this.lugar = lugar;
+    }
 }

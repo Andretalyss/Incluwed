@@ -5,6 +5,7 @@ import com.mostreiai.project.repository.PostsRepository;
 
 public class AttPostsForm {
     private String titulo;
+    private String lugar;
     private String msg;
     private int nota;
     private String data;
@@ -12,6 +13,7 @@ public class AttPostsForm {
     public Postagens atualizar(Long id, PostsRepository postsRepository){
         Postagens posts = postsRepository.getById(id);
         posts.setTitulo(this.titulo);
+        posts.setLugar(this.lugar);
         posts.setMsg(this.msg);
         posts.setNota(this.nota);
         posts.setData(this.data);
@@ -42,6 +44,12 @@ public class AttPostsForm {
     }
     public void setTitulo(String titulo) {
         this.titulo = titulo;
+    }
+    public String getLugar() {
+        return lugar;
+    }
+    public void setLugar(String lugar) {
+        this.lugar = lugar;
     }
 
 
