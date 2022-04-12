@@ -85,13 +85,13 @@ public class PostagensController {
             Page<Places> getPlace = placesRepository.findByNomeLocal(posts.getNomeLocal(), paginacao);
 
             if ( getPlace.getNumberOfElements() == 0 ){
-                Places newPlace = new Places(posts.getNomeLocal(), posts.getLugar(), posts.getNota(), posts.getData(), 1, posts.getNota());
+                Places newPlace = new Places(posts.getNomeLocal(), posts.getLugar(), posts.getNota(), 1, posts.getNota());
                 placesRepository.save(newPlace);
             }else {
                 List<Places> attPlace = getPlace.toList();
                 attPlace.get(0).setNumberPosts(attPlace.get(0).getNumberPosts()+1); 
                 attPlace.get(0).setNotaTotal(attPlace.get(0).getNotalTotal() + posts.getNota());
-                attPlace.get(0).setNota(attPlace.get(0).getNotalTotal()/attPlace.get(0).getNumberPosts());
+                attPlace.get(0).setNota((float) attPlace.get(0).getNotalTotal()/attPlace.get(0).getNumberPosts());
             }
 
             URI uri = uriBuilder.path("/post/{id}").buildAndExpand(posts.getId()).toUri();
@@ -146,7 +146,7 @@ public class PostagensController {
             List<Places> attPlace = getPlace.toList();
             attPlace.get(0).setNumberPosts(attPlace.get(0).getNumberPosts()-1); 
             attPlace.get(0).setNotaTotal(attPlace.get(0).getNotalTotal() - posts.getNota());
-            attPlace.get(0).setNota(attPlace.get(0).getNotalTotal()/attPlace.get(0).getNumberPosts());
+            attPlace.get(0).setNota((float) attPlace.get(0).getNotalTotal()/attPlace.get(0).getNumberPosts());
         
             postsRepository.deleteById(id);
 

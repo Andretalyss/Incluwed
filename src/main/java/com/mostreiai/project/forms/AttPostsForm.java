@@ -12,7 +12,6 @@ public class AttPostsForm {
     private String lugar;
     private String msg;
     private int nota;
-    private String data;
 
     public Postagens atualizar(Long id, PostsRepository postsRepository, List<Places> placeObj, int nota_old){
         Postagens posts = postsRepository.getById(id);
@@ -20,7 +19,6 @@ public class AttPostsForm {
         posts.setTitulo(this.titulo);
         posts.setLugar(this.lugar);
         posts.setMsg(this.msg);
-        posts.setData(this.data);
         posts.setNota(this.nota); 
 
                                                
@@ -28,7 +26,7 @@ public class AttPostsForm {
                                                                             
             placeObj.get(0).setNotaTotal(placeObj.get(0).getNotalTotal() - nota_old);                                                                     
             placeObj.get(0).setNotaTotal(placeObj.get(0).getNotalTotal() + posts.getNota());    
-            placeObj.get(0).setNota((placeObj.get(0).getNotalTotal()/placeObj.get(0).getNumberPosts()));
+            placeObj.get(0).setNota((float) placeObj.get(0).getNotalTotal()/placeObj.get(0).getNumberPosts());
         
         }
 
@@ -41,12 +39,12 @@ public class AttPostsForm {
     public String getNomeLocal() {
         return nomeLocal;
     }
-    public String getData() {
-        return data;
-    }
-    public void setData(String data) {
-        this.data = data;
-    }
+    // public Date getData() {
+    //     return data;
+    // }
+    // public void setData(Date data) {
+    //     this.data = data;
+    // }
     public int getNota() {
         return nota;
     }

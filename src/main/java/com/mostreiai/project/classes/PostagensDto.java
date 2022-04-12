@@ -1,5 +1,7 @@
 package com.mostreiai.project.classes;
 
+import java.time.LocalDateTime;
+
 import org.springframework.data.domain.Page;
 
 public class PostagensDto {
@@ -9,7 +11,7 @@ public class PostagensDto {
     private String msg;
     private Long usuario;
     private int nota;
-    private String data;
+    private LocalDateTime data;
 
     public PostagensDto(Postagens posts){
         this.setTitulo(posts.getTitulo());
@@ -33,11 +35,11 @@ public class PostagensDto {
         return nomeLocal;
     }
 
-    public String getData() {
+    public LocalDateTime getData() {
         return data;
     }
 
-    public void setData(String data) {
+    public void setData(LocalDateTime data) {
         this.data = data;
     }
 

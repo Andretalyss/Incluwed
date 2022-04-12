@@ -1,11 +1,15 @@
 package com.mostreiai.project.classes;
 
+import java.time.LocalDateTime;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
+
+import org.hibernate.annotations.CreationTimestamp;
 
 @Table(name="postagens", schema="public")
 @Entity
@@ -33,20 +37,20 @@ public class Postagens {
     private int nota;
 
     @Column(name="datap")
-    private String data;
+    @CreationTimestamp
+    private LocalDateTime data;
 
     public Postagens(){
 
     }
 
-    public Postagens(String titulo, String nomeLocal, String lugar, String msg, Long usuario, Integer nota, String data){
+    public Postagens(String titulo, String nomeLocal, String lugar, String msg, Long usuario, Integer nota){
         this.titulo = titulo;
         this.nomeLocal = nomeLocal;
         this.lugar = lugar;
         this.msg = msg;
         this.usuario = usuario;
         this.nota = nota;
-        this.data = data;
     }
 
     public String getTitulo(){
@@ -69,7 +73,7 @@ public class Postagens {
         return nota;
     }
 
-    public String getData(){
+    public LocalDateTime getData(){
         return data;
     }
 
@@ -98,9 +102,6 @@ public class Postagens {
         this.nota = nota;
     }
 
-    public void setData(String data){
-        this.data = data;
-    }
 
     public String getLugar() {
         return lugar;

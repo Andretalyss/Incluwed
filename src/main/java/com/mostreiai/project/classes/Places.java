@@ -1,11 +1,15 @@
 package com.mostreiai.project.classes;
 
+import java.time.LocalDateTime;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
+
+import org.hibernate.annotations.CreationTimestamp;
 
 @Table(name="lugares", schema="public")
 @Entity
@@ -21,10 +25,11 @@ public class Places {
     private String nomeRua;
 
     @Column(name="acesso")
-    private int nota;
+    private float nota;
 
     @Column(name="data_cadastro")
-    private String data;
+    @CreationTimestamp
+    private LocalDateTime data;
 
     @Column(name="numero_posts")
     private int numberPosts;
@@ -36,11 +41,10 @@ public class Places {
 
     }
 
-    public Places( String nomeLocal, String nomeRua, int nota, String data, int numberPosts, int notaTotal){
+    public Places( String nomeLocal, String nomeRua, int nota,int numberPosts, int notaTotal){
         this.nomeLocal = nomeLocal;
         this.nomeRua = nomeRua;
         this.nota = nota;
-        this.data = data;
         this.numberPosts = numberPosts;
         this.notaTotal = notaTotal;
     }
@@ -65,11 +69,11 @@ public class Places {
         return nomeRua;
     }
 
-    public int getNota(){
+    public float getNota(){
         return nota;
     }
 
-    public String getData(){
+    public LocalDateTime getData(){
         return data;
     }
 
@@ -89,12 +93,12 @@ public class Places {
         this.nomeRua = nomeRua;
     }
 
-    public void setNota(int nota){
+    public void setNota(float nota){
         this.nota = nota;
     }
 
-    public void setData(String data){
-        this.data = data;
-    }
+    // public void setData(Date data){
+    //     this.data = data;
+    // }
 
 }

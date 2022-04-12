@@ -11,14 +11,14 @@ CREATE TABLE usuarios(
     cep varchar(255), 
     estado varchar(255), 
     cidade varchar(255), 
-    nascimento varchar(255)
+    nascimento DATE
 );
 
 INSERT INTO usuarios(nome, sobrenome, cpf, email, senha, telefone, cep, estado, cidade, nascimento) values(
-    'André', 'Talysson', '122.953.834-80','atvdiniz@gmail.com', '1234567819', '83999519413', '58070510', 'PB', 'João Pessoa', '08/10/1999'
+    'André', 'Talysson', '122.953.834-80','atvdiniz@gmail.com', '1234567819', '83999519413', '58070510', 'PB', 'João Pessoa', '1999-08-10'
 );
 INSERT INTO usuarios(nome, sobrenome, cpf, email, senha, telefone, cep, estado, cidade, nascimento) values(
-    'Rafael', 'farias', '123.543.221-21', 'rafael@gmail.com', '1234567819', '83999519413', '58070510', 'PB', 'João Pessoa', '08/10/1999'
+    'Rafael', 'farias', '123.543.221-21', 'rafael@gmail.com', '1234567819', '83999519413', '58070510', 'PB', 'João Pessoa', '1999-08-10'
 );
 
 DROP TABLE IF EXISTS postagens;
@@ -31,11 +31,11 @@ CREATE TABLE postagens(
     lugar varchar(255),
     conteudo varchar(255),
     nota int,
-    dataP varchar(255),
+    dataP TIMESTAMP,
     CONSTRAINT usuarios FOREIGN KEY (usuario) REFERENCES usuarios (id)
 );
 
-INSERT INTO postagens(usuario,titulo,nomelocal, lugar, conteudo, nota, dataP) values(1,'Testando','Shopping', 'Mangabeira', 'Vamos lá', 5, '08/10/2020');
+INSERT INTO postagens(usuario,titulo,nomelocal, lugar, conteudo, nota, dataP) values(1,'Testando','Shopping', 'Mangabeira', 'Vamos lá', 5, '2020-10-08');
 
 DROP TABLE IF EXISTS lugares;
 
@@ -43,8 +43,8 @@ CREATE TABLE lugares(
     id serial primary key,
     nome_local varchar(255),
     nome_rua varchar(255),
-    acesso int,
-    data_cadastro varchar(255),
+    acesso numeric(3,2),
+    data_cadastro TIMESTAMP,
     numero_posts int ,
     nota_total int
 );

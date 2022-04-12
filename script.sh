@@ -2,4 +2,4 @@
 
 mvn clean
 mvn clean package -DskipTests
-docker build -t incluwed .
+sudo docker build -t incluwed .

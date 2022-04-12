@@ -1,13 +1,15 @@
 package com.mostreiai.project.classes;
 
+import java.time.LocalDateTime;
+
 import org.springframework.data.domain.Page;
 
 public class PlacesDto {
     private Long id;
     private String nomeLocal;
     private String nomeRua;
-    private int nota;
-    private String data;
+    private float nota;
+    private LocalDateTime data;
 
     public PlacesDto(Places lugar){
         this.id = lugar.getId();
@@ -29,11 +31,11 @@ public class PlacesDto {
         return nomeRua;
     }
 
-    public int getNota(){
+    public float getNota(){
         return nota;
     }
 
-    public String getData(){
+    public LocalDateTime getData(){
         return data;
     }
 
@@ -45,11 +47,11 @@ public class PlacesDto {
         this.nomeRua = nomeRua;
     }
 
-    public void setNota(int nota){
+    public void setNota(float nota){
         this.nota = nota;
     }
 
-    public void setData(String data){
+    public void setData(LocalDateTime data){
         this.data = data;
     }
 
