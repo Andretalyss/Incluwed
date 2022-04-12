@@ -14,7 +14,7 @@ public class AttPostsForm {
     private int nota;
     private String data;
 
-    public Postagens atualizar(Long id, PostsRepository postsRepository, List<Places> placeObj){
+    public Postagens atualizar(Long id, PostsRepository postsRepository, List<Places> placeObj, int nota_old){
         Postagens posts = postsRepository.getById(id);
         posts.setNomeLocal(this.nomeLocal);
         posts.setTitulo(this.titulo);
@@ -24,16 +24,11 @@ public class AttPostsForm {
         posts.setNota(this.nota); 
 
                                                
-        if ( placeObj.get(0).getNota() != posts.getNota() ){
-
-                                                                                     
-            placeObj.get(0).setNotaTotal(placeObj.get(0).getNotalTotal() - placeObj.get(0).getNota());  
-
-                                                                               
+        if ( nota_old != posts.getNota() ){
+                                                                            
+            placeObj.get(0).setNotaTotal(placeObj.get(0).getNotalTotal() - nota_old);                                                                     
             placeObj.get(0).setNotaTotal(placeObj.get(0).getNotalTotal() + posts.getNota());    
-
-
-            posts.setNota(placeObj.get(0).getNotalTotal()/placeObj.get(0).getNumberPosts());
+            placeObj.get(0).setNota((placeObj.get(0).getNotalTotal()/placeObj.get(0).getNumberPosts()));
         
         }
 
