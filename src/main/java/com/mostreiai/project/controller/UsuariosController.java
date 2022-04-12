@@ -5,7 +5,6 @@ import com.mostreiai.project.classes.UsuariosDto;
 import com.mostreiai.project.forms.AttUsuariosForm;
 import com.mostreiai.project.forms.UsuarioForms;
 import com.mostreiai.project.repository.UsuariosRepository;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -23,10 +22,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.util.UriComponentsBuilder;
-
+import br.com.caelum.stella.validation.CPFValidator;
+import br.com.caelum.stella.validation.InvalidStateException;
 import java.net.URI;
 import java.util.Optional;
-
 import javax.validation.Valid;
 
 @RestController
@@ -35,7 +34,6 @@ public class UsuariosController {
 
     @Autowired
     private UsuariosRepository usuariosRepository;
-
 
     @GetMapping
     public Page<UsuariosDto> ListaUser(@RequestParam(required = false) String nome,
@@ -62,11 +60,21 @@ public class UsuariosController {
     @PostMapping
     @Transactional
     public ResponseEntity<UsuariosDto> CadastrarUsuario(@RequestBody @Validated UsuarioForms form, UriComponentsBuilder uriBuilder) {
+        CPFValidator validator = new CPFValidator();
+
         Usuarios usuario = form.converter();
-        usuariosRepository.save(usuario);
+        String cpf = usuario.getCpf();
+        try {
+
+            validator.assertValid(cpf);
+            usuariosRepository.save(usuario);
         
-        URI uri = uriBuilder.path("/users/{id}").buildAndExpand(usuario.getId()).toUri();
-        return ResponseEntity.created(uri).body(new UsuariosDto(usuario));
+            URI uri = uriBuilder.path("/users/{id}").buildAndExpand(usuario.getId()).toUri();
+            return ResponseEntity.created(uri).body(new UsuariosDto(usuario));
+
+        } catch (InvalidStateException e){
+            return ResponseEntity.badRequest().build();
+        }
         
     }
     
@@ -81,6 +89,7 @@ public class UsuariosController {
         return ResponseEntity.notFound().build();
     }
 
+
     @PutMapping("/{id}")
     @Transactional
     public ResponseEntity<UsuariosDto> atualizar(@PathVariable Long id, @RequestBody @Valid AttUsuariosForm form) {
@@ -88,6 +97,18 @@ public class UsuariosController {
         if (optional.isPresent()){
             Usuarios user = form.atualizar(id, usuariosRepository);
             return ResponseEntity.ok(new UsuariosDto(user));
+        }
+
+        return ResponseEntity.notFound().build();        
+    }
+
+    @PutMapping("/{id}/alter-pass")
+    @Transactional
+    public ResponseEntity<String> atualizarSenha(@PathVariable Long id, @RequestBody @Valid AttUsuariosForm form) {
+        Optional<Usuarios> optional = usuariosRepository.findById(id);
+        if (optional.isPresent()){
+            form.atualizarSenha(id, usuariosRepository);
+            return ResponseEntity.ok("Senha alterada com sucesso!");
         }
 
         return ResponseEntity.notFound().build();        

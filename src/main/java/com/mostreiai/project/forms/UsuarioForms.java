@@ -3,9 +3,7 @@ package com.mostreiai.project.forms;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
-
 import com.mostreiai.project.classes.Usuarios;
-
 import org.hibernate.validator.constraints.Length;
 
 public class UsuarioForms {
@@ -16,6 +14,9 @@ public class UsuarioForms {
     @NotNull @NotEmpty @Length(max = 30)
     private String sobrenome;
 
+    @NotNull @NotEmpty @Length(max = 15)
+    private String cpf;
+    
     @NotNull @NotEmpty @Length(max = 25)
     private String email;
 
@@ -40,6 +41,12 @@ public class UsuarioForms {
 
     public String getNome(){
         return nome;
+    }
+    public String getCpf() {
+        return cpf;
+    }
+    public void setCpf(String cpf) {
+        this.cpf = cpf;
     }
     public String getSobrenome(){
         return sobrenome;
@@ -94,7 +101,7 @@ public class UsuarioForms {
         this.senha = senha;
     }
     public Usuarios converter() {
-        return new Usuarios(nome, sobrenome, email, telefone, senha, cep, estado, cidade, nascimento);
+        return new Usuarios(nome, sobrenome, cpf, email, senha, telefone, cep, estado, cidade, nascimento);
     }
 
 }
