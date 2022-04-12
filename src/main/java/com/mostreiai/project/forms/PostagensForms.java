@@ -1,17 +1,17 @@
 package com.mostreiai.project.forms;
 
-
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
-
 import com.mostreiai.project.classes.Postagens;
-
 import org.hibernate.validator.constraints.Length;
 
 public class PostagensForms {
 
     @NotNull @NotEmpty @Length(max=20)
     private String titulo;
+
+    @NotNull @NotEmpty @Length(max=20)
+    private String nomeLocal;
 
     @NotNull @NotEmpty @Length(max=120)
     private String lugar;
@@ -74,8 +74,16 @@ public class PostagensForms {
         this.lugar = lugar;
     }
 
+    public String getNomeLocal() {
+        return nomeLocal;
+    }
+
+    public void setNomeLocal(String nomeLocal) {
+        this.nomeLocal = nomeLocal;
+    }
+
     public Postagens converter(Long usuario ) {
-        return new Postagens(titulo, lugar, msg, usuario, nota, data);
+        return new Postagens(titulo, nomeLocal, lugar, msg, usuario, nota, data);
     }
 
 }

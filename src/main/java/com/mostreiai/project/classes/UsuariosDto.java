@@ -1,4 +1,5 @@
 package com.mostreiai.project.classes;
+
 import org.springframework.data.domain.Page;
 
 public class UsuariosDto {

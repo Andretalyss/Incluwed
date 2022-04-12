@@ -17,6 +17,9 @@ public class Postagens {
     @Column(name="titulo")
     private String titulo;
 
+    @Column(name="nomelocal")
+    private String nomeLocal;
+
     @Column(name="lugar")
     private String lugar;
 
@@ -36,8 +39,9 @@ public class Postagens {
 
     }
 
-    public Postagens(String titulo, String lugar, String msg, Long usuario, Integer nota, String data){
+    public Postagens(String titulo, String nomeLocal, String lugar, String msg, Long usuario, Integer nota, String data){
         this.titulo = titulo;
+        this.nomeLocal = nomeLocal;
         this.lugar = lugar;
         this.msg = msg;
         this.usuario = usuario;
@@ -51,6 +55,10 @@ public class Postagens {
 
     public String getMsg(){
         return msg;
+    }
+
+    public String getNomeLocal(){
+        return nomeLocal;
     }
 
     public Long getUsuario(){
@@ -76,6 +84,10 @@ public class Postagens {
 
     public void setMsg(String msg){
         this.msg = msg;
+    }
+
+    public void setNomeLocal(String nomeLocal){
+        this.nomeLocal = nomeLocal;
     }
 
     public void setUsuario(Long usuario){
