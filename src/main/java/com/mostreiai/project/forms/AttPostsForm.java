@@ -2,15 +2,32 @@ package com.mostreiai.project.forms;
 
 import java.util.List;
 
+import javax.validation.constraints.DecimalMax;
+import javax.validation.constraints.DecimalMin;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
+
 import com.mostreiai.project.classes.Places;
 import com.mostreiai.project.classes.Postagens;
 import com.mostreiai.project.repository.PostsRepository;
 
+import org.hibernate.validator.constraints.Length;
+
 public class AttPostsForm {
+    
+    @NotNull @NotEmpty @Length(max=20)
     private String titulo;
+
+    @NotNull @NotEmpty @Length(max=20)
     private String nomeLocal;
+
+    @NotNull @NotEmpty @Length(max=120)
     private String lugar;
+
+    @NotNull @NotEmpty @Length(max=120)
     private String msg;
+
+    @NotNull @DecimalMax("5.0") @DecimalMin("0.0")
     private int nota;
 
     public Postagens atualizar(Long id, PostsRepository postsRepository, List<Places> placeObj, int nota_old){

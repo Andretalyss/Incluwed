@@ -1,6 +1,8 @@
 package com.mostreiai.project.forms;
 
 
+import javax.validation.constraints.DecimalMax;
+import javax.validation.constraints.DecimalMin;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import com.mostreiai.project.classes.Postagens;
@@ -22,6 +24,7 @@ public class PostagensForms {
 
     private Long usuario;
 
+    @NotNull @DecimalMax("5.0") @DecimalMin("0.0")
     private int nota;
 
     // @NotNull @NotEmpty @Length(max=10)
