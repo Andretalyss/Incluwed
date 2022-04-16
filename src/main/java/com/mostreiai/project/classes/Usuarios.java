@@ -1,7 +1,6 @@
 package com.mostreiai.project.classes;
 
 import javax.persistence.Table;
-
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -17,6 +16,9 @@ public class Usuarios {
 
     @Column(name="nome")
     private String nome;
+
+    @Column(name="cpf")
+    private String cpf;
 
     @Column(name="sobrenome")
     private String sobrenome;
@@ -46,9 +48,10 @@ public class Usuarios {
 
     }
 
-    public Usuarios(String nome, String sobrenome, String email,String senha, String telefone, String cep, String estado, String cidade, String nascimento){
+    public Usuarios(String nome, String sobrenome,String cpf, String email,String senha, String telefone, String cep, String estado, String cidade, String nascimento){
         this.nome = nome;
         this.sobrenome = sobrenome;
+        this.cpf = cpf;
         this.email = email;
         this.senha = senha;
         this.telefone = telefone;
@@ -60,6 +63,10 @@ public class Usuarios {
 
     public Long getId(){
         return id;
+    }
+
+    public String getCpf(){
+        return cpf;
     }
 
     public String getNome(){
@@ -100,6 +107,10 @@ public class Usuarios {
 
     public void setSenha(String senha){
         this.senha = senha;
+    }
+
+    public void setCpf(String cpf){
+        this.cpf = cpf;
     }
 
     public void setTelefone(String telefone){

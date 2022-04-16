@@ -1,22 +1,27 @@
 package com.mostreiai.project.classes;
 
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Slice;
+import java.time.LocalDateTime;
 
-import java.util.List;
-import java.util.stream.Collectors;
+import org.springframework.data.domain.Page;
 
 public class PostagensDto {
     private String titulo;
+    private String nomeLocal;
     private String lugar;
     private String msg;
     private Long usuario;
+<<<<<<< HEAD
     private float nota;
     private String data;
+=======
+    private int nota;
+    private LocalDateTime data;
+>>>>>>> ranking
 
     public PostagensDto(Postagens posts){
         this.setTitulo(posts.getTitulo());
         this.setLugar(posts.getLugar());
+        this.setNomeLocal(posts.getNomeLocal());
         this.setMsg(posts.getMsg());
         this.setUsuario(posts.getUsuario());
         this.setNota(posts.getNota());
@@ -31,11 +36,15 @@ public class PostagensDto {
         return lugar;
     }
 
-    public String getData() {
+    public String getNomeLocal() {
+        return nomeLocal;
+    }
+
+    public LocalDateTime getData() {
         return data;
     }
 
-    public void setData(String data) {
+    public void setData(LocalDateTime data) {
         this.data = data;
     }
 
@@ -63,6 +72,10 @@ public class PostagensDto {
         this.msg = msg;
     }
 
+    public void setNomeLocal(String nomeLocal) {
+        this.nomeLocal = nomeLocal;
+    }
+
     public String getTitulo() {
         return titulo;
     }
@@ -73,10 +86,6 @@ public class PostagensDto {
 
     public static Page<PostagensDto> convert(Page<Postagens> posts){
         return posts.map(PostagensDto::new);
-    }
-
-    public static List<PostagensDto> convert(List<Postagens> posts1){
-        return posts1.stream().map(PostagensDto::new).collect(Collectors.toList());
     }
 
 }

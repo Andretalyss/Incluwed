@@ -1,19 +1,20 @@
 package com.mostreiai.project.controller;
 
 import java.net.URI;
+import java.util.List;
 import java.util.Optional;
-
 import javax.transaction.Transactional;
 import javax.validation.Valid;
 
+import com.mostreiai.project.classes.Places;
 import com.mostreiai.project.classes.Postagens;
 import com.mostreiai.project.classes.PostagensDto;
 import com.mostreiai.project.classes.Usuarios;
 import com.mostreiai.project.forms.AttPostsForm;
 import com.mostreiai.project.forms.PostagensForms;
+import com.mostreiai.project.repository.PlacesRepository;
 import com.mostreiai.project.repository.PostsRepository;
 import com.mostreiai.project.repository.UsuariosRepository;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -38,12 +39,22 @@ public class PostagensController {
     private PostsRepository postsRepository;
     @Autowired
     private UsuariosRepository usuariosRepository;
+    @Autowired
+    private PlacesRepository placesRepository;
+
 
     @GetMapping
-    public Page<PostagensDto> ListaPostagens(@RequestParam(required = false) String lugar, @RequestParam(required=false) Long usuario_id,
+    public Page<PostagensDto> ListaPostagens(@RequestParam(required = false) String nomelocal,
+        @RequestParam(required = false) String lugar, @RequestParam(required=false) Long usuario_id,
             @RequestParam int pagina, @RequestParam int qtd) {
 
         Pageable paginacao = PageRequest.of(pagina, qtd);
+
+
+        if (nomelocal != null){
+            Page<Postagens> posts = postsRepository.findByNomeLocal(nomelocal, paginacao);
+            return PostagensDto.convert(posts);
+        }
 
         if (lugar != null){
             Page<Postagens> posts = postsRepository.findByLugar(lugar, paginacao);
@@ -69,11 +80,24 @@ public class PostagensController {
         if ( userCheck.isPresent()){
             Postagens posts = form.converter(usuario_id);
             postsRepository.save(posts);
+
+            Pageable paginacao = PageRequest.of(0, 10);
+            Page<Places> getPlace = placesRepository.findByNomeLocal(posts.getNomeLocal(), paginacao);
+
+            if ( getPlace.getNumberOfElements() == 0 ){
+                Places newPlace = new Places(posts.getNomeLocal(), posts.getLugar(), posts.getNota(), 1, posts.getNota());
+                placesRepository.save(newPlace);
+            }else {
+                List<Places> attPlace = getPlace.toList();
+                attPlace.get(0).setNumberPosts(attPlace.get(0).getNumberPosts()+1); 
+                attPlace.get(0).setNotaTotal(attPlace.get(0).getNotalTotal() + posts.getNota());
+                attPlace.get(0).setNota((float) attPlace.get(0).getNotalTotal()/attPlace.get(0).getNumberPosts());
+            }
+
             URI uri = uriBuilder.path("/post/{id}").buildAndExpand(posts.getId()).toUri();
             return ResponseEntity.created(uri).body(new PostagensDto(posts));     
         }
 
-        
         return ResponseEntity.notFound().build();
     }
     
@@ -93,7 +117,15 @@ public class PostagensController {
     public ResponseEntity<PostagensDto> atualizar(@PathVariable Long id, @RequestBody @Valid AttPostsForm form) {
         Optional<Postagens> optional = postsRepository.findById(id);
         if (optional.isPresent()){
-            Postagens posts = form.atualizar(id, postsRepository);
+
+            Postagens posts = optional.get();
+            Pageable paginacao = PageRequest.of(0, 10);
+            Page<Places> getPlace = placesRepository.findByNomeLocal(posts.getNomeLocal(), paginacao);
+            int nota_old = posts.getNota();
+
+            List<Places> attPlace = getPlace.toList();
+            posts = form.atualizar(id, postsRepository, attPlace, nota_old);
+
             return ResponseEntity.ok(new PostagensDto(posts));
         }
 
@@ -106,7 +138,18 @@ public class PostagensController {
     public ResponseEntity<?> removerPost(@PathVariable Long id){
         Optional<Postagens> optional = postsRepository.findById(id);
         if (optional.isPresent()){
+            
+            Postagens posts = optional.get();
+            Pageable paginacao = PageRequest.of(0, 10);
+            Page<Places> getPlace = placesRepository.findByNomeLocal(posts.getNomeLocal(), paginacao);
+
+            List<Places> attPlace = getPlace.toList();
+            attPlace.get(0).setNumberPosts(attPlace.get(0).getNumberPosts()-1); 
+            attPlace.get(0).setNotaTotal(attPlace.get(0).getNotalTotal() - posts.getNota());
+            attPlace.get(0).setNota((float) attPlace.get(0).getNotalTotal()/attPlace.get(0).getNumberPosts());
+        
             postsRepository.deleteById(id);
+
             return ResponseEntity.ok().build();
         }
         

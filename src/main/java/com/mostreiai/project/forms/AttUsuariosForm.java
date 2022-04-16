@@ -1,14 +1,28 @@
 package com.mostreiai.project.forms;
 
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 import com.mostreiai.project.classes.Usuarios;
 import com.mostreiai.project.repository.UsuariosRepository;
+import org.hibernate.validator.constraints.Length;
+import org.springframework.lang.NonNull;
 
 public class AttUsuariosForm {
     
+    @NotNull @NotEmpty @Length(max = 25)
     private String email;
+
+    @NotNull @NotEmpty @Length(max = 10)
     private String cep;
+
+    @NonNull @NotEmpty @Size(min=8, max=12)
     private String senha;
+
+    @NotNull @NotEmpty @Length(max = 12)
     private String telefone;
+
+    @NotNull @NotEmpty @Length(max = 12)
     private String nascimento;
 
 
@@ -16,9 +30,15 @@ public class AttUsuariosForm {
         Usuarios user = usuariosRepository.getById(id);
         user.setEmail(this.email);
         user.setCep(this.cep);
-        user.setSenha(this.senha);
         user.setTelefone(this.telefone);
         user.setNascimento(this.nascimento);
+
+        return user;
+    }
+
+    public Usuarios atualizarSenha(Long id, UsuariosRepository usuariosRepository){
+        Usuarios user = usuariosRepository.getById(id);
+        user.setSenha(this.senha);
 
         return user;
     }
