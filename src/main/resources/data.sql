@@ -26,12 +26,14 @@ CREATE TABLE postagens(
     titulo varchar(255),
     lugar varchar(255),
     conteudo varchar(255),
-    nota int,
+    nota float,
     dataP varchar(255),
     CONSTRAINT usuarios FOREIGN KEY (usuario) REFERENCES usuarios (id)
 );
 
-INSERT INTO postagens(usuario, titulo, lugar, conteudo, nota, dataP) values(1,'Testando', 'Shopping', 'Vamos lá', 5, '08/10/2020');
-INSERT INTO postagens(usuario, titulo, lugar, conteudo, nota, dataP) values(1,'Testando2','Shopping', 'Vamos lá', 3, '08/10/2020');
+INSERT INTO postagens(usuario, titulo, lugar, conteudo, nota, dataP) values(1,'Testando', 'Shopping Mangabeira', 'Vamos lá', 5, '08/10/2020');
+INSERT INTO postagens(usuario, titulo, lugar, conteudo, nota, dataP) values(1,'Testando2','Shopping Manaira', 'Vamos lá', 3, '08/10/2020');
 INSERT INTO postagens(usuario, titulo, lugar, conteudo, nota, dataP) values(2,'Testando3','CI', 'OPA', 4, '08/10/2020');
 INSERT INTO postagens(usuario, titulo, lugar, conteudo, nota, dataP) values(2,'Testando4','CI', 'Vamos lá', 1, '08/10/2020');
+INSERT INTO postagens(usuario, titulo, lugar, conteudo, nota, dataP) values(1,'Testando', 'Shopping Mangabeira', 'Vamos lá', 5, '08/10/2020');
+INSERT INTO postagens(usuario, titulo, lugar, conteudo, nota, dataP) values(1,'Testando2','Shopping Manaira', 'Vamos lá', 3, '08/10/2020');

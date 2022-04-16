@@ -27,7 +27,7 @@ public class Postagens {
     private Long usuario;
 
     @Column(name="nota")
-    private int nota;
+    private float nota;
 
     @Column(name="datap")
     private String data;
@@ -57,7 +57,7 @@ public class Postagens {
         return usuario;
     }
 
-    public int getNota(){
+    public float getNota(){
         return nota;
     }
 
@@ -82,7 +82,7 @@ public class Postagens {
         this.usuario  = usuario;
     }
 
-    public void setNota(int nota){
+    public void setNota(float nota){
         this.nota = nota;
     }
 

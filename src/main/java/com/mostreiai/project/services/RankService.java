@@ -32,6 +32,6 @@ public class RankService {
 class ComparatorNota implements Comparator<PostagensDto> {
     @Override
     public int compare(PostagensDto g1, PostagensDto g2) {
-        return Integer.compare(g1.getNota(), g2.getNota());
+        return Float.compare(g1.getNota(), g2.getNota());
     }
 }

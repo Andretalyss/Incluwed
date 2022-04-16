@@ -11,7 +11,7 @@ public class PostagensDto {
     private String lugar;
     private String msg;
     private Long usuario;
-    private int nota;
+    private float nota;
     private String data;
 
     public PostagensDto(Postagens posts){
@@ -39,11 +39,11 @@ public class PostagensDto {
         this.data = data;
     }
 
-    public int getNota() {
+    public float getNota() {
         return nota;
     }
 
-    public void setNota(int nota) {
+    public void setNota(float nota) {
         this.nota = nota;
     }
 
