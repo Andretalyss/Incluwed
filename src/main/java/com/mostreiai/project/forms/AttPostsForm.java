@@ -32,7 +32,7 @@ public class AttPostsForm {
     private String msg;
 
     @NotNull @DecimalMax("5.0") @DecimalMin("0.0")
-    private int nota;
+    private float nota;
 
     public Postagens atualizar(Long id, PostsRepository postsRepository, PlacesRepository placesRepository, List<Places> placeObj, float nota_old, String namePlace_old){
         Postagens posts = postsRepository.getById(id);

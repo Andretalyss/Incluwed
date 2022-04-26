@@ -25,7 +25,7 @@ public class PostagensForms {
     private Long usuario;
 
     @NotNull @DecimalMax("5.0") @DecimalMin("0.0")
-    private int nota;
+    private float nota;
 
     // @NotNull @NotEmpty @Length(max=10)
     // private Date data;
