@@ -10,13 +10,8 @@ public class PostagensDto {
     private String lugar;
     private String msg;
     private Long usuario;
-<<<<<<< HEAD
     private float nota;
-    private String data;
-=======
-    private int nota;
     private LocalDateTime data;
->>>>>>> ranking
 
     public PostagensDto(Postagens posts){
         this.setTitulo(posts.getTitulo());

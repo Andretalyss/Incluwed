@@ -22,7 +22,7 @@ public class PostagensForms {
 
     private Long usuario;
 
-    private int nota;
+    private float nota;
 
     // @NotNull @NotEmpty @Length(max=10)
     // private Date data;
@@ -35,11 +35,11 @@ public class PostagensForms {
     //     this.data = data;
     // }
 
-    public int getNota() {
+    public float getNota() {
         return nota;
     }
 
-    public void setNota(int nota) {
+    public void setNota(float nota) {
         this.nota = nota;
     }
 

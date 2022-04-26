@@ -44,7 +44,7 @@ public class Postagens {
 
     }
 
-    public Postagens(String titulo, String nomeLocal, String lugar, String msg, Long usuario, Integer nota){
+    public Postagens(String titulo, String nomeLocal, String lugar, String msg, Long usuario, Float nota){
         this.titulo = titulo;
         this.nomeLocal = nomeLocal;
         this.lugar = lugar;

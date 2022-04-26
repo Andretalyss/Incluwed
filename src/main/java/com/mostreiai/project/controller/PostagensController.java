@@ -121,10 +121,12 @@ public class PostagensController {
             Postagens posts = optional.get();
             Pageable paginacao = PageRequest.of(0, 10);
             Page<Places> getPlace = placesRepository.findByNomeLocal(posts.getNomeLocal(), paginacao);
-            int nota_old = posts.getNota();
 
+            float nota_old = posts.getNota();
+            String namePlace_old = posts.getNomeLocal();
             List<Places> attPlace = getPlace.toList();
-            posts = form.atualizar(id, postsRepository, attPlace, nota_old);
+
+            posts = form.atualizar(id, postsRepository, placesRepository, attPlace, nota_old, namePlace_old);
 
             return ResponseEntity.ok(new PostagensDto(posts));
         }

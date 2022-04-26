@@ -35,13 +35,13 @@ public class Places {
     private int numberPosts;
 
     @Column(name="nota_total")
-    private int notaTotal;
+    private float notaTotal;
 
     public Places(){
 
     }
 
-    public Places( String nomeLocal, String nomeRua, int nota,int numberPosts, int notaTotal){
+    public Places( String nomeLocal, String nomeRua, float nota,int numberPosts, float notaTotal){
         this.nomeLocal = nomeLocal;
         this.nomeRua = nomeRua;
         this.nota = nota;
@@ -53,7 +53,7 @@ public class Places {
         return id;
     }
 
-    public int getNotalTotal(){
+    public float getNotalTotal(){
         return notaTotal;
     }
 
@@ -81,7 +81,7 @@ public class Places {
         this.nomeLocal = nomeLocal;
     }
 
-    public void setNotaTotal(int notaTotal){
+    public void setNotaTotal(float notaTotal){
         this.notaTotal = notaTotal;
     }
 

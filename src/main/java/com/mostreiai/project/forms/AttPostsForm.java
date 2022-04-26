@@ -5,15 +5,19 @@ import java.util.List;
 import com.mostreiai.project.classes.Places;
 import com.mostreiai.project.classes.Postagens;
 import com.mostreiai.project.repository.PostsRepository;
+import com.mostreiai.project.repository.PlacesRepository;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 
 public class AttPostsForm {
     private String titulo;
     private String nomeLocal;
     private String lugar;
     private String msg;
-    private int nota;
+    private float nota;
 
-    public Postagens atualizar(Long id, PostsRepository postsRepository, List<Places> placeObj, int nota_old){
+    public Postagens atualizar(Long id, PostsRepository postsRepository, PlacesRepository placesRepository, List<Places> placeObj, float nota_old, String namePlace_old){
         Postagens posts = postsRepository.getById(id);
         posts.setNomeLocal(this.nomeLocal);
         posts.setTitulo(this.titulo);
@@ -21,14 +25,35 @@ public class AttPostsForm {
         posts.setMsg(this.msg);
         posts.setNota(this.nota); 
 
-                                               
         if ( nota_old != posts.getNota() ){
-                                                                            
-            placeObj.get(0).setNotaTotal(placeObj.get(0).getNotalTotal() - nota_old);                                                                     
-            placeObj.get(0).setNotaTotal(placeObj.get(0).getNotalTotal() + posts.getNota());    
+
+            placeObj.get(0).setNotaTotal(placeObj.get(0).getNotalTotal() - nota_old);
+            placeObj.get(0).setNotaTotal(placeObj.get(0).getNotalTotal() + posts.getNota());
             placeObj.get(0).setNota((float) placeObj.get(0).getNotalTotal()/placeObj.get(0).getNumberPosts());
-        
+
         }
+
+        else if (!(namePlace_old.equals(posts.getNomeLocal()))){
+            Pageable paginacao = PageRequest.of(0, 10);
+            Page<Places> getPlace = placesRepository.findByNomeLocal(posts.getNomeLocal(), paginacao);
+
+            if ( getPlace.getNumberOfElements() == 0 ){
+
+                placeObj.get(0).setNumberPosts(placeObj.get(0).getNumberPosts()-1);
+                placeObj.get(0).setNotaTotal(placeObj.get(0).getNotalTotal() - posts.getNota());
+                placeObj.get(0).setNota((float) placeObj.get(0).getNotalTotal()/placeObj.get(0).getNumberPosts());
+
+                Places newPlace = new Places(posts.getNomeLocal(), posts.getLugar(), posts.getNota(), 1, posts.getNota());
+                placesRepository.save(newPlace);
+
+            }else {
+                placeObj.get(0).setNumberPosts(placeObj.get(0).getNumberPosts()+1);
+                placeObj.get(0).setNotaTotal(placeObj.get(0).getNotalTotal() + posts.getNota());
+                placeObj.get(0).setNota((float) placeObj.get(0).getNotalTotal()/placeObj.get(0).getNumberPosts());
+            }
+
+        }
+
 
         return posts;
     }
@@ -45,10 +70,10 @@ public class AttPostsForm {
     // public void setData(Date data) {
     //     this.data = data;
     // }
-    public int getNota() {
+    public float getNota() {
         return nota;
     }
-    public void setNota(int nota) {
+    public void setNota(float nota) {
         this.nota = nota;
     }
     public String getMsg() {
