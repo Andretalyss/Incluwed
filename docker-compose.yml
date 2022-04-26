@@ -8,8 +8,6 @@ services:
       POSTGRES_PASSWORD: "1234abc"
     ports:
       - "5432:5432"
-#     volumes:git
-#       - /srv/postgres:/var/lib/postgresql/data
   
   backend:
     image: incluwed:latest

@@ -1,4 +1,4 @@
-DROP TABLE IF EXISTS usuarios;
+
 
 CREATE TABLE usuarios(
     id serial primary key,
@@ -21,7 +21,6 @@ INSERT INTO usuarios(nome, sobrenome, cpf, email, senha, telefone, cep, estado, 
     'Rafael', 'farias', '123.543.221-21', 'rafael@gmail.com', '1234567819', '83777777777', '59291020', 'PB', 'João Pessoa', '1999/08/10'
 );
 
-DROP TABLE IF EXISTS postagens;
 
 CREATE TABLE postagens(
     id serial primary key,
@@ -35,7 +34,6 @@ CREATE TABLE postagens(
     CONSTRAINT usuarios FOREIGN KEY (usuario) REFERENCES usuarios (id)
 );
 
-DROP TABLE IF EXISTS lugares;
 
 CREATE TABLE lugares(
     id serial primary key,

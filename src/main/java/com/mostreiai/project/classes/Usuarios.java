@@ -48,6 +48,20 @@ public class Usuarios {
 
     }
 
+    public Usuarios(Long id, String nome, String sobrenome,String cpf, String email,String senha, String telefone, String cep, String estado, String cidade, String nascimento){
+        this.id = id;
+        this.nome = nome;
+        this.sobrenome = sobrenome;
+        this.cpf = cpf;
+        this.email = email;
+        this.senha = senha;
+        this.telefone = telefone;
+        this.cep = cep;
+        this.estado = estado;
+        this.cidade = cidade;
+        this.nascimento = nascimento;
+    }
+
     public Usuarios(String nome, String sobrenome,String cpf, String email,String senha, String telefone, String cep, String estado, String cidade, String nascimento){
         this.nome = nome;
         this.sobrenome = sobrenome;
