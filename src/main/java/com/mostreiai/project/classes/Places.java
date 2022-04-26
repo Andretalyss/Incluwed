@@ -41,7 +41,7 @@ public class Places {
 
     }
 
-    public Places( String nomeLocal, String nomeRua, float nota,int numberPosts, float notaTotal){
+    public Places( String nomeLocal, String nomeRua, float nota,int numberPosts, int notaTotal){
         this.nomeLocal = nomeLocal;
         this.nomeRua = nomeRua;
         this.nota = nota;

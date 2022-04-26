@@ -1,4 +1,4 @@
-DROP TABLE IF EXISTS usuarios;
+
 
 CREATE TABLE usuarios(
     id serial primary key,
@@ -11,17 +11,16 @@ CREATE TABLE usuarios(
     cep varchar(255), 
     estado varchar(255), 
     cidade varchar(255), 
-    nascimento DATE
+    nascimento varchar(10)
 );
 
 INSERT INTO usuarios(nome, sobrenome, cpf, email, senha, telefone, cep, estado, cidade, nascimento) values(
-    'André', 'Talysson', '122.953.834-80','atvdiniz@gmail.com', '1234567819', '83999519413', '58070510', 'PB', 'João Pessoa', '1999-08-10'
+    'André', 'Talysson', '999.999.999.99','atvdiniz@gmail.com', '1234567819', '8399999999', '59999059', 'PB', 'João Pessoa', '1999/08/10'
 );
 INSERT INTO usuarios(nome, sobrenome, cpf, email, senha, telefone, cep, estado, cidade, nascimento) values(
-    'Rafael', 'farias', '123.543.221-21', 'rafael@gmail.com', '1234567819', '83999519413', '58070510', 'PB', 'João Pessoa', '1999-08-10'
+    'Rafael', 'farias', '123.543.221-21', 'rafael@gmail.com', '1234567819', '83777777777', '59291020', 'PB', 'João Pessoa', '1999/08/10'
 );
 
-DROP TABLE IF EXISTS postagens;
 
 CREATE TABLE postagens(
     id serial primary key,
@@ -35,7 +34,7 @@ CREATE TABLE postagens(
     dataP TIMESTAMP,
     CONSTRAINT usuarios FOREIGN KEY (usuario) REFERENCES usuarios (id)
 );
-DROP TABLE IF EXISTS lugares;
+
 
 CREATE TABLE lugares(
     id serial primary key,
@@ -46,5 +45,3 @@ CREATE TABLE lugares(
     numero_posts int ,
     nota_total int
 );
-
--->>>>>>> ranking

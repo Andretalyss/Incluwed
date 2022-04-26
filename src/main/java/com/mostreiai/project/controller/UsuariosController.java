@@ -36,7 +36,7 @@ public class UsuariosController {
     private UsuariosRepository usuariosRepository;
 
     @GetMapping
-    public Page<UsuariosDto> ListaUser(@RequestParam(required = false) String nome,
+    public Page<UsuariosDto> ListaAllUser(@RequestParam(required = false) String nome,
             @RequestParam(required = false) String email, 
             @RequestParam int pagina, @RequestParam int qtd) {
 
