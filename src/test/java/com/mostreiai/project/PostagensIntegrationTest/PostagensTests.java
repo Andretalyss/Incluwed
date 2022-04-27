@@ -1,4 +1,4 @@
-package com.mostreiai.project;
+package com.mostreiai.project.PostagensIntegrationTest;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.mostreiai.project.classes.Postagens;
@@ -26,7 +26,7 @@ import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
 import java.util.Optional;
 
-import static org.mockito.ArgumentMatchers.anyString;
+import static org.mockito.ArgumentMatchers.*;
 
 @SpringBootTest
 @AutoConfigureMockMvc
@@ -40,9 +40,11 @@ public class PostagensTests {
 
     @MockBean
     private PostsRepository postsRepository;
+    private UsuariosRepository usuariosRepository;
 
+    Usuarios user1 = new Usuarios((long) 1,"Teste1", "Teste1", "91919191919", "Teste1@gmail.com", "teste1234", "99999999", "58070101", "PB", "João Pessoa", "08-10-1999");
     Postagens post1 = new Postagens("Teste1", "Shopping", "rua josefa taveira", "paia",(long) 1, (float)2);
-    Postagens post2 = new Postagens("Teste2", "CI", "rua josefa taveira", "massa",(long) 1, (float)5);
+    Postagens post2 = new Postagens("Teste2", "CI", "rua josefa taveira", "massa",(long) 2, (float)5);
 
     // TESTE GET'S
 
@@ -93,19 +95,10 @@ public class PostagensTests {
         Page<Postagens> posts = Mockito.mock(Page.class);
         Mockito.when(postsRepository.findByNomeLocal("Shopping", paginacao)).thenReturn(posts);
 
-        mvc.perform(MockMvcRequestBuilders.get("/posts?pagina=0&qtd=5&nome=Shopping")
+        mvc.perform(MockMvcRequestBuilders.get("/posts?pagina=0&qtd=5&nomelocal=Shopping")
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(MockMvcResultMatchers.status().isOk());
     }
-
-//    @org.junit.jupiter.api.Test
-//    public void getUsuarioById_sucesso() throws Exception {
-//        Mockito.when(usuariosRepository.findById(user1.getId())).thenReturn(java.util.Optional.of(user1));
-//
-//        mvc.perform(MockMvcRequestBuilders.get("/users/1")
-//                .contentType(MediaType.APPLICATION_JSON)).andExpect(MockMvcResultMatchers.status().isOk());
-//
-//    }
 
     @Test
     public void getPosts_notFound() throws Exception {
@@ -117,14 +110,16 @@ public class PostagensTests {
 
     // TEST POST
     @Test
-    public void postUsuario_sucesso() throws Exception {
-        Usuarios user = new Usuarios("Fernando", "Marques", "12295383480", "fmr@gmail.com", "12345test", "999999999", "58070510", "PB", "João Pessoa", "10-10-1999");
+    public void postPosts_sucesso() throws Exception {
+        Mockito.when(usuariosRepository.findById(user1.getId())).thenReturn(java.util.Optional.of(user1));
 
-        MockHttpServletRequestBuilder mockRequest = MockMvcRequestBuilders.post("/users").contentType(MediaType.APPLICATION_JSON)
-                .accept(MediaType.APPLICATION_JSON).content(this.mapper.writeValueAsString(user));
+        Postagens post = new Postagens("Sem rampa", "Manaira Shopping", "Retão de manaira", "triste", (long)1, (float)2);
+
+        MockHttpServletRequestBuilder mockRequest = MockMvcRequestBuilders.post("/posts/1").contentType(MediaType.APPLICATION_JSON)
+                .accept(MediaType.APPLICATION_JSON).content(this.mapper.writeValueAsString(post));
 
 
-        mvc.perform(mockRequest).andExpect(MockMvcResultMatchers.status().isCreated()).andExpect(MockMvcResultMatchers.jsonPath("$.nome", Matchers.is(user.getNome())));
+        mvc.perform(mockRequest).andExpect(MockMvcResultMatchers.status().isCreated());
     }
 
 

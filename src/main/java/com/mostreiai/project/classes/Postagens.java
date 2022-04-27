@@ -31,7 +31,7 @@ public class Postagens {
     private String msg;
 
     @Column(name="usuario")
-    private Long usuario;
+    private long usuario;
 
     @Column(name="nota")
     private float nota;
@@ -65,7 +65,7 @@ public class Postagens {
         return nomeLocal;
     }
 
-    public Long getUsuario(){
+    public long getUsuario(){
         return usuario;
     }
 
@@ -94,7 +94,7 @@ public class Postagens {
         this.nomeLocal = nomeLocal;
     }
 
-    public void setUsuario(Long usuario){
+    public void setUsuario(long usuario){
         this.usuario  = usuario;
     }
 

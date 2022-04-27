@@ -123,6 +123,15 @@ public class Usuarios {
         this.senha = senha;
     }
 
+    public void setNome(String nome){
+        this.nome = nome;
+    }
+
+    public void setSobrenome(String sobrenome){
+        this.sobrenome = sobrenome;
+    }
+
+
     public void setCpf(String cpf){
         this.cpf = cpf;
     }
@@ -142,4 +151,14 @@ public class Usuarios {
     public void setNascimento(String nascimento){
         this.nascimento = nascimento;
     }
+
+    public void setEstado(String estado){
+        this.estado = estado;
+    }
+
+    public void setCidade(String cidade){
+        this.cidade = cidade;
+    }
+
+
 }
