@@ -1,0 +1,19 @@
+version: '3'
+
+services:
+  postgres_db:
+    image: postgres
+    container_name: postgres_db
+    environment:
+      POSTGRES_PASSWORD: "1234abc"
+    ports:
+      - "5432:5432"
+  
+  backend:
+    image: incluwed:latest
+    environment:
+      HOST: postgres_db
+    ports:
+      - 8080:8080
+    links:
+      - postgres_db
