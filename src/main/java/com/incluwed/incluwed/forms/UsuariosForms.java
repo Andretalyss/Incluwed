@@ -3,14 +3,11 @@ package com.incluwed.incluwed.forms;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
-
 import com.incluwed.incluwed.classes.Enderecos;
 import com.incluwed.incluwed.classes.Telefones;
 import com.incluwed.incluwed.classes.Usuarios;
 import com.incluwed.incluwed.repository.UsuariosRepository;
-
 import org.hibernate.validator.constraints.Length;
-
 import lombok.Getter;
 import lombok.Setter;
 

@@ -3,18 +3,13 @@ package com.incluwed.incluwed.controllers;
 import java.net.URI;
 import java.util.Optional;
 import javax.transaction.Transactional;
-
-import com.incluwed.incluwed.classes.Postagens;
 import com.incluwed.incluwed.classes.Usuarios;
-import com.incluwed.incluwed.dto.PostagensDto;
 import com.incluwed.incluwed.dto.UsuariosDto;
-import com.incluwed.incluwed.forms.PostagensForms;
 import com.incluwed.incluwed.forms.UsuariosForms;
+import com.incluwed.incluwed.forms.UsuariosSenhaForms;
 import com.incluwed.incluwed.repository.EnderecosRepository;
-import com.incluwed.incluwed.repository.PostagensRepository;
 import com.incluwed.incluwed.repository.TelefonesRepository;
 import com.incluwed.incluwed.repository.UsuariosRepository;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -45,9 +40,6 @@ public class UsuariosController {
     @Autowired
     private EnderecosRepository enderecosRepository;
 
-    @Autowired
-    private PostagensRepository postagensRepository;
-
     @GetMapping
     public Page<UsuariosDto> listarTodosUsuarios(@RequestParam int pag, @RequestParam int qtd){
         
@@ -77,23 +69,6 @@ public class UsuariosController {
         return ResponseEntity.created(uri).body(new UsuariosDto(user));
         
     }
-    
-    @PostMapping("/{id}/posts")
-    @Transactional
-    public ResponseEntity<PostagensDto> cadastrarPostPorUsuario(@PathVariable("id") long usuario_id, @RequestBody PostagensForms form, UriComponentsBuilder uriBuilder){
-        Optional<Usuarios> userCheck = usuariosRepository.findById(usuario_id);
-
-        if (userCheck.isPresent()){
-            Postagens post = form.converter(userCheck.get());
-            postagensRepository.save(post);
-
-            URI uri = uriBuilder.path("/posts/{id}").buildAndExpand(form.getPost_id()).toUri();
-            return ResponseEntity.created(uri).body(new PostagensDto(post));
-        }
-        
-        
-        return ResponseEntity.notFound().build();
-    }
 
     @PutMapping("/{id}")
     @Transactional
@@ -109,6 +84,23 @@ public class UsuariosController {
         return ResponseEntity.notFound().build();
     }
 
+    
+    @PutMapping("/{id}/pass")
+    @Transactional
+    public ResponseEntity<String> updateSenhaUsuario(@PathVariable("id") long id, @RequestBody @Validated UsuariosSenhaForms form ){
+        Optional<Usuarios> userCheck = usuariosRepository.findById(id);
+        if (userCheck.isPresent()){
+            if ( userCheck.get().getSenha().equals(form.getSenha_velha())){
+                form.atualizaSenhaUsuario(id, usuariosRepository);
+                return ResponseEntity.ok("Senha alterada com sucesso.");
+            }
+           
+            return ResponseEntity.badRequest().body("Senha atual não é válida.");
+        }
+
+        return ResponseEntity.notFound().build();
+    }
+
     @DeleteMapping("/{id}")
     @Transactional
     public ResponseEntity<?> removerUsuarioPorId(@PathVariable long id){
@@ -117,10 +109,11 @@ public class UsuariosController {
             usuariosRepository.deleteById(id);
             telefonesRepository.deleteById(id);
             enderecosRepository.deleteById(id);
-            return ResponseEntity.ok().build();
+            return ResponseEntity.ok("Usuário: " + optional.get().getId() +  " deletado com sucesso!");
         }
         
         return ResponseEntity.notFound().build();
         
     }
+
 }

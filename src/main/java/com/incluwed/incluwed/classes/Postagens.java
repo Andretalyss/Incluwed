@@ -1,7 +1,6 @@
 package com.incluwed.incluwed.classes;
 
 import java.time.LocalDateTime;
-
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -18,7 +17,7 @@ import org.hibernate.annotations.CreationTimestamp;
 @Table(name="postagens", schema="public")
 @Entity
 public class Postagens implements PostagensInterface {
-    
+
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long post_id;
 
@@ -36,7 +35,7 @@ public class Postagens implements PostagensInterface {
 
     @OneToOne(cascade = {CascadeType.PERSIST})
     @JoinColumn(name="usuario_id")
-    private Usuarios usuario_id;
+    private Usuarios usuario;
 
     @Column(name="nota")
     private int nota;
@@ -46,12 +45,12 @@ public class Postagens implements PostagensInterface {
     private LocalDateTime data;
 
 
-    public Postagens(String titulo, String nomeLocal, String enderecoLocal, String texto, Usuarios usuario_id, int nota) {
+    public Postagens(String titulo, String nomeLocal, String enderecoLocal, String texto, Usuarios usuario, int nota) {
         this.titulo = titulo;
         this.nomeLocal = nomeLocal;
         this.enderecoLocal = enderecoLocal;
         this.texto = texto;
-        this.usuario_id = usuario_id;
+        this.usuario = usuario;
         this.nota = nota;
     }
 
@@ -102,13 +101,13 @@ public class Postagens implements PostagensInterface {
     }
 
 
-    public Usuarios getUsuario_id() {
-        return usuario_id;
+    public Usuarios getUsuario() {
+        return usuario;
     }
 
 
-    public void setUsuario_id(Usuarios usuario_id) {
-        this.usuario_id = usuario_id;
+    public void setUsuario(Usuarios usuario) {
+        this.usuario = usuario;
     }
 
 

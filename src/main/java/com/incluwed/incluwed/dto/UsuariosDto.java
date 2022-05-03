@@ -3,7 +3,6 @@ package com.incluwed.incluwed.dto;
 import com.incluwed.incluwed.classes.Enderecos;
 import com.incluwed.incluwed.classes.Telefones;
 import com.incluwed.incluwed.classes.Usuarios;
-
 import org.springframework.data.domain.Page;
 
 public class UsuariosDto {
