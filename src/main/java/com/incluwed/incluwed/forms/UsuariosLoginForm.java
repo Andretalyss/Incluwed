@@ -1,11 +1,13 @@
 package com.incluwed.incluwed.forms;
 
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+
 public class UsuariosLoginForm {
     private String email;
     private String senha;
 
     public UsuariosLoginForm(){}
-    
+
     public UsuariosLoginForm(String email,String senha){
         this.email = email;
         this.senha = senha;
@@ -27,4 +29,7 @@ public class UsuariosLoginForm {
         this.senha = senha;
     }
 
+    public UsernamePasswordAuthenticationToken convert(){
+        return new UsernamePasswordAuthenticationToken(email, senha);
+    }
 }

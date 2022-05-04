@@ -1,4 +1,4 @@
-package com.incluwed.incluwed.config;
+package com.incluwed.incluwed.infrastructure.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

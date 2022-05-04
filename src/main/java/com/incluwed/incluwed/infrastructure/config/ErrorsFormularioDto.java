@@ -1,4 +1,4 @@
-package com.incluwed.incluwed.config;
+package com.incluwed.incluwed.infrastructure.config;
 
 public class ErrorsFormularioDto {
     private String campo;

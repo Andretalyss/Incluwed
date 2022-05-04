@@ -1,4 +1,4 @@
-package com.incluwed.incluwed.config;
+package com.incluwed.incluwed.infrastructure.config;
 
 import java.util.ArrayList;
 import java.util.List;

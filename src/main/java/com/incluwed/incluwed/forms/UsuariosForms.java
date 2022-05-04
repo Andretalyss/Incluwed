@@ -29,7 +29,7 @@ public class UsuariosForms {
     @NotNull @NotEmpty @Length(max = 12)
     private String nascimento;
 
-    @NotNull @NotEmpty @Size(min=8, max=12)
+    @NotNull @NotEmpty @Size(min=8, max=50)
     private String senha;
 
     private Enderecos endereco;
