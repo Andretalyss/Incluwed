@@ -1,19 +1,18 @@
 package com.incluwed.incluwed.controllers;
 
 import java.net.URI;
+import java.util.List;
 import java.util.Optional;
 import javax.transaction.Transactional;
 
+import com.incluwed.incluwed.classes.Places;
 import com.incluwed.incluwed.classes.Postagens;
 import com.incluwed.incluwed.classes.Usuarios;
 import com.incluwed.incluwed.dto.PostagensDto;
 import com.incluwed.incluwed.dto.UsuariosDto;
 import com.incluwed.incluwed.forms.PostagensForms;
 import com.incluwed.incluwed.forms.UsuariosForms;
-import com.incluwed.incluwed.repository.EnderecosRepository;
-import com.incluwed.incluwed.repository.PostagensRepository;
-import com.incluwed.incluwed.repository.TelefonesRepository;
-import com.incluwed.incluwed.repository.UsuariosRepository;
+import com.incluwed.incluwed.repository.*;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -47,6 +46,9 @@ public class UsuariosController {
 
     @Autowired
     private PostagensRepository postagensRepository;
+
+    @Autowired
+    private PlacesRepository placesRepository;
 
     @GetMapping
     public Page<UsuariosDto> listarTodosUsuarios(@RequestParam int pag, @RequestParam int qtd){
@@ -86,6 +88,20 @@ public class UsuariosController {
         if (userCheck.isPresent()){
             Postagens post = form.converter(userCheck.get());
             postagensRepository.save(post);
+
+            Pageable paginacao = PageRequest.of(0, 10);
+            Page<Places> getPlace = placesRepository.findByNomeLocal(post.getNomeLocal(), paginacao);
+
+            if ( getPlace.getNumberOfElements() == 0 ){
+                Places newPlace = new Places(post.getNomeLocal(), post.getEnderecoLocal(), 1, post.getNota(), post.getNota());
+                placesRepository.save(newPlace);
+
+            }else {
+                List<Places> attPlace = getPlace.toList();
+                attPlace.get(0).setNumberPosts(attPlace.get(0).getNumberPosts()+1);
+                attPlace.get(0).setNotaTotal(attPlace.get(0).getNotalTotal() + post.getNota());
+                attPlace.get(0).setNota((float) attPlace.get(0).getNotalTotal()/attPlace.get(0).getNumberPosts());
+            }
 
             URI uri = uriBuilder.path("/posts/{id}").buildAndExpand(form.getPost_id()).toUri();
             return ResponseEntity.created(uri).body(new PostagensDto(post));

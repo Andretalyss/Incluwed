@@ -48,12 +48,12 @@ CREATE TABLE postagens(
 -- );
 
 
--- CREATE TABLE lugares(
---     id serial primary key,
---     nome_local varchar(255),
---     nome_rua varchar(255),
---     acesso numeric(3,2),
---     data_cadastro TIMESTAMP,
---     numero_posts int ,
---     nota_total int
--- );
+ CREATE TABLE lugares(
+     id serial primary key,
+     nome_local varchar(255),
+     nome_rua varchar(255),
+     acesso numeric(3,2),
+     data_cadastro TIMESTAMP,
+     numero_posts int ,
+     nota_total int
+);
