@@ -36,6 +36,8 @@ public class UsuariosForms {
 
     private Telefones telefone;
 
+    public UsuariosForms(){}
+
     public UsuariosForms(String nome, String sobrenome,String cpf, String email,String senha, String nascimento, Enderecos endereco, Telefones telefone){
 
         this.nome = nome;

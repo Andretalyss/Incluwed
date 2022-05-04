@@ -4,6 +4,8 @@ public class UsuariosLoginForm {
     private String email;
     private String senha;
 
+    public UsuariosLoginForm(){}
+    
     public UsuariosLoginForm(String email,String senha){
         this.email = email;
         this.senha = senha;

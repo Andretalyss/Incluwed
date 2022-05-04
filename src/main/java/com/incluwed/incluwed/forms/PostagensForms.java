@@ -32,6 +32,8 @@ public class PostagensForms extends Postagens {
     @NotNull @DecimalMax("5.0") @DecimalMin("0.0")
     private int nota;
 
+    public PostagensForms(){}
+    
     public PostagensForms(String titulo, String nomeLocal, String enderecoLocal, String msg, Usuarios usuario, int nota){
         this.titulo = titulo;
         this.nomeLocal = nomeLocal;

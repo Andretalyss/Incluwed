@@ -14,6 +14,8 @@ public class UsuariosSenhaForms {
     @NotNull @NotEmpty
     private String senha_velha;
 
+    public UsuariosSenhaForms(){}
+    
     public void atualizaSenhaUsuario(long id, UsuariosRepository usuariosRepository){
         Usuarios usuario = usuariosRepository.getById(id);
         usuario.setSenha(this.senha_nova);
