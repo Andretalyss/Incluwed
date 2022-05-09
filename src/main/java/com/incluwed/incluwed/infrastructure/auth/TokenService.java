@@ -37,6 +37,20 @@ public class TokenService {
 
     }
 
+    public String gerarTokenFastExpiration(String email){
+        Date dataHoje = new Date();
+        Date dataExp = new Date(dataHoje.getTime() + 900000);
+
+        return Jwts.builder()
+            .setIssuer("Token recup. de senha")
+            .setSubject(email)
+            .setIssuedAt(dataHoje)
+            .setExpiration(dataExp)
+            .signWith(SignatureAlgorithm.HS256, secret)
+            .compact();
+    
+    }
+
     public boolean isTokenValid(String token) {
         try {
             Jwts.parser().setSigningKey(this.secret).parseClaimsJws(token);

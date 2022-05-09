@@ -15,6 +15,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -42,6 +43,8 @@ public class UsuariosController {
     @Autowired
     private EnderecosRepository enderecosRepository;
 
+    BCryptPasswordEncoder password = new BCryptPasswordEncoder();
+
     @GetMapping
     public Page<UsuariosDto> listarTodosUsuarios(@RequestParam int pag, @RequestParam int qtd){
         
@@ -66,6 +69,7 @@ public class UsuariosController {
     @Transactional
     public ResponseEntity<UsuariosDto> cadastroUsuario(@RequestBody @Validated UsuariosForms form, UriComponentsBuilder uriBuilder){
         Usuarios user = form.converter();
+        user.setSenha(codificadaSenha(password, user.getSenha()));
         usuariosRepository.save(user);
         URI uri = uriBuilder.path("/users/{id}").buildAndExpand(user.getId()).toUri();
         return ResponseEntity.created(uri).body(new UsuariosDto(user));
@@ -87,12 +91,14 @@ public class UsuariosController {
     }
 
     
-    @PutMapping("/{id}/pass")
+    @PutMapping("/{id}/change-pass")
     @Transactional
     public ResponseEntity<String> updateSenhaUsuario(@PathVariable("id") long id, @RequestBody @Validated UsuariosSenhaForms form ){
         Optional<Usuarios> userCheck = usuariosRepository.findById(id);
         if (userCheck.isPresent()){
-            if ( userCheck.get().getSenha().equals(form.getSenha_velha())){
+
+            if ( password.matches(form.getSenha_velha(), userCheck.get().getSenha())){
+                form.setSenha_nova(codificadaSenha(password, form.getSenha_nova()));
                 form.atualizaSenhaUsuario(id, usuariosRepository);
                 return ResponseEntity.ok("Senha alterada com sucesso.");
             }
@@ -118,4 +124,7 @@ public class UsuariosController {
         
     }
 
+    private String codificadaSenha(BCryptPasswordEncoder password, String senha_nova) {
+        return password.encode(senha_nova);
+    }
 }

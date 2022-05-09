@@ -37,6 +37,7 @@ public class SecurityConfigurations extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
         auth.userDetailsService(autenticacaoService).passwordEncoder(new BCryptPasswordEncoder());
+
     }
 
     @Override
@@ -45,6 +46,9 @@ public class SecurityConfigurations extends WebSecurityConfigurerAdapter {
         .antMatchers(HttpMethod.GET, "/posts").permitAll()
         .antMatchers(HttpMethod.GET, "/posts/*").permitAll()
         .antMatchers(HttpMethod.POST, "/auth").permitAll()
+        .antMatchers(HttpMethod.POST, "/users").permitAll()
+        .antMatchers(HttpMethod.POST, "/auth/forgot-pass").permitAll()
+        .antMatchers(HttpMethod.POST, "/auth/reset-pass").permitAll()
         .anyRequest().authenticated()
         .and().csrf().disable()
         .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)

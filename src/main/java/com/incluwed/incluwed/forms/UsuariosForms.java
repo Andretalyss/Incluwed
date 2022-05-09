@@ -36,9 +36,11 @@ public class UsuariosForms {
 
     private Telefones telefone;
 
+    private String token_redif;
+
     public UsuariosForms(){}
 
-    public UsuariosForms(String nome, String sobrenome,String cpf, String email,String senha, String nascimento, Enderecos endereco, Telefones telefone){
+    public UsuariosForms(String nome, String sobrenome,String cpf, String email,String senha, String nascimento, Enderecos endereco, Telefones telefone, String token_redif){
 
         this.nome = nome;
         this.sobrenome = sobrenome;
@@ -48,11 +50,12 @@ public class UsuariosForms {
         this.nascimento = nascimento;
         this.endereco = endereco;
         this.telefone = telefone;
+        this.token_redif = token_redif;
 
     }
 
     public Usuarios converter() {
-        return new Usuarios(nome, sobrenome, cpf, email, senha, nascimento, endereco, telefone);
+        return new Usuarios(nome, sobrenome, cpf, email, senha, nascimento, endereco, telefone, token_redif);
     }
 
     public Usuarios atualizaUsuario(long id, UsuariosRepository usuariosRepository){

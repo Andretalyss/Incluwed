@@ -20,12 +20,13 @@ import com.incluwed.incluwed.interfaces.UsuariosInterface;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
+
 @Table(name="usuarios", schema="public")
 @Entity
 public class Usuarios implements UsuariosInterface, UserDetails {
 
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private long id;
 
     @Column(name="nome")
     private String nome;
@@ -56,9 +57,12 @@ public class Usuarios implements UsuariosInterface, UserDetails {
     @ManyToMany(fetch = FetchType.EAGER)
     private List<Perfil> perfis = new ArrayList<>();
 
+    @Column(name="token")
+    private String token_redif;
+
     public Usuarios(){}
 
-    public Usuarios(String nome, String sobrenome, String cpf, String email, String senha, String nascimento, Enderecos endereco, Telefones telefone){
+    public Usuarios(String nome, String sobrenome, String cpf, String email, String senha, String nascimento, Enderecos endereco, Telefones telefone, String token_redif){
         this.nome = nome;
         this.sobrenome = sobrenome;
         this.cpf = cpf;
@@ -67,6 +71,7 @@ public class Usuarios implements UsuariosInterface, UserDetails {
         this.nascimento = nascimento;
         this.endereco = endereco;
         this.telefone = telefone;
+        this.token_redif = token_redif;
     }
 
     @Override
@@ -183,6 +188,16 @@ public class Usuarios implements UsuariosInterface, UserDetails {
     @Override
     public boolean isEnabled() {
         return true;
+    }
+
+    @Override
+    public String getToken_redif() {
+        return token_redif;
+    }
+
+    @Override
+    public void setToken_redif(String token_redif) {
+        this.token_redif = token_redif;
     }
 
 }
