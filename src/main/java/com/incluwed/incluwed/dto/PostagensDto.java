@@ -1,8 +1,8 @@
 package com.incluwed.incluwed.dto;
 
 import java.time.LocalDateTime;
-
 import com.incluwed.incluwed.classes.Postagens;
+import org.springframework.data.domain.Page;
 
 public class PostagensDto {
     private String post_titulo;
@@ -20,7 +20,11 @@ public class PostagensDto {
         this.post_texto = posts.getTexto();
         this.post_nota = posts.getNota();
         this.post_data = posts.getData();
-        this.usuarios = UsuariosDto.returnUsuarioDto(posts.getUsuario_id());
+        this.usuarios = UsuariosDto.returnUsuarioDto(posts.getUsuario());
+    }
+
+    public static Page<PostagensDto> convertToDto(Page<Postagens> posts){
+        return posts.map(PostagensDto::new);
     }
 
     public String getPost_titulo() {

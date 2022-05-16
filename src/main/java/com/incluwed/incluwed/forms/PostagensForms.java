@@ -4,12 +4,10 @@ import javax.validation.constraints.DecimalMax;
 import javax.validation.constraints.DecimalMin;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
-
 import com.incluwed.incluwed.classes.Postagens;
 import com.incluwed.incluwed.classes.Usuarios;
-
+import com.incluwed.incluwed.repository.PostagensRepository;
 import org.hibernate.validator.constraints.Length;
-
 import lombok.Getter;
 import lombok.Setter;
 
@@ -34,6 +32,8 @@ public class PostagensForms extends Postagens {
     @NotNull @DecimalMax("5.0") @DecimalMin("0.0")
     private int nota;
 
+    public PostagensForms(){}
+    
     public PostagensForms(String titulo, String nomeLocal, String enderecoLocal, String msg, Usuarios usuario, int nota){
         this.titulo = titulo;
         this.nomeLocal = nomeLocal;
@@ -45,6 +45,17 @@ public class PostagensForms extends Postagens {
 
     public Postagens converter(Usuarios usuario) {
         return new Postagens(titulo, nomeLocal, enderecoLocal, texto, usuario, nota);
+    }
+
+    public Postagens atualizarPost(long post_id, PostagensRepository postagensRepository){
+        Postagens post = postagensRepository.getById(post_id);
+        post.setNomeLocal(this.nomeLocal);
+        post.setTitulo(this.titulo);
+        post.setEnderecoLocal(this.enderecoLocal);
+        post.setTexto(this.texto);
+        post.setNota(this.nota);
+
+        return post;
     }
 
 }

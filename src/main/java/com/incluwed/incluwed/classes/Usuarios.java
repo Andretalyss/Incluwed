@@ -1,20 +1,29 @@
 package com.incluwed.incluwed.classes;
 
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
+
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.ManyToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
-
 import com.incluwed.incluwed.interfaces.UsuariosInterface;
+
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
+
 
 @Table(name="usuarios", schema="public")
 @Entity
-public class Usuarios implements UsuariosInterface {
+public class Usuarios implements UsuariosInterface, UserDetails {
 
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
@@ -45,9 +54,15 @@ public class Usuarios implements UsuariosInterface {
     @JoinColumn(name="telefone_id")
     private Telefones telefone;
 
+    @ManyToMany(fetch = FetchType.EAGER)
+    private List<Perfil> perfis = new ArrayList<>();
+
+    @Column(name="token")
+    private String token_redif;
+
     public Usuarios(){}
 
-    public Usuarios(String nome, String sobrenome, String cpf, String email, String senha, String nascimento, Enderecos endereco, Telefones telefone){
+    public Usuarios(String nome, String sobrenome, String cpf, String email, String senha, String nascimento, Enderecos endereco, Telefones telefone, String token_redif){
         this.nome = nome;
         this.sobrenome = sobrenome;
         this.cpf = cpf;
@@ -56,6 +71,7 @@ public class Usuarios implements UsuariosInterface {
         this.nascimento = nascimento;
         this.endereco = endereco;
         this.telefone = telefone;
+        this.token_redif = token_redif;
     }
 
     @Override
@@ -137,6 +153,51 @@ public class Usuarios implements UsuariosInterface {
 
     public void setTelefone(Telefones telefone) {
         this.telefone = telefone;
+    }
+
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        return this.perfis;
+    }
+
+    @Override
+    public String getPassword() {
+        return this.senha;
+    }
+
+    @Override
+    public String getUsername() {
+        return this.email;
+    }
+
+    @Override
+    public boolean isAccountNonExpired() {
+        return true;
+    }
+
+    @Override
+    public boolean isAccountNonLocked() {
+        return true;
+    }
+
+    @Override
+    public boolean isCredentialsNonExpired() {
+        return true;
+    }
+
+    @Override
+    public boolean isEnabled() {
+        return true;
+    }
+
+    @Override
+    public String getToken_redif() {
+        return token_redif;
+    }
+
+    @Override
+    public void setToken_redif(String token_redif) {
+        this.token_redif = token_redif;
     }
 
 }

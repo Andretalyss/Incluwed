@@ -3,14 +3,11 @@ package com.incluwed.incluwed.forms;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
-
 import com.incluwed.incluwed.classes.Enderecos;
 import com.incluwed.incluwed.classes.Telefones;
 import com.incluwed.incluwed.classes.Usuarios;
 import com.incluwed.incluwed.repository.UsuariosRepository;
-
 import org.hibernate.validator.constraints.Length;
-
 import lombok.Getter;
 import lombok.Setter;
 
@@ -32,14 +29,18 @@ public class UsuariosForms {
     @NotNull @NotEmpty @Length(max = 12)
     private String nascimento;
 
-    @NotNull @NotEmpty @Size(min=8, max=12)
+    @NotNull @NotEmpty @Size(min=8, max=50)
     private String senha;
 
     private Enderecos endereco;
 
     private Telefones telefone;
 
-    public UsuariosForms(String nome, String sobrenome,String cpf, String email,String senha, String nascimento, Enderecos endereco, Telefones telefone){
+    private String token_redif;
+
+    public UsuariosForms(){}
+
+    public UsuariosForms(String nome, String sobrenome,String cpf, String email,String senha, String nascimento, Enderecos endereco, Telefones telefone, String token_redif){
 
         this.nome = nome;
         this.sobrenome = sobrenome;
@@ -49,11 +50,12 @@ public class UsuariosForms {
         this.nascimento = nascimento;
         this.endereco = endereco;
         this.telefone = telefone;
+        this.token_redif = token_redif;
 
     }
 
     public Usuarios converter() {
-        return new Usuarios(nome, sobrenome, cpf, email, senha, nascimento, endereco, telefone);
+        return new Usuarios(nome, sobrenome, cpf, email, senha, nascimento, endereco, telefone, token_redif);
     }
 
     public Usuarios atualizaUsuario(long id, UsuariosRepository usuariosRepository){

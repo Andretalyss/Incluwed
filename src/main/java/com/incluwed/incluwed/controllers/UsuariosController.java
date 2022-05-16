@@ -4,21 +4,19 @@ import java.net.URI;
 import java.util.List;
 import java.util.Optional;
 import javax.transaction.Transactional;
-
-import com.incluwed.incluwed.classes.Places;
-import com.incluwed.incluwed.classes.Postagens;
 import com.incluwed.incluwed.classes.Usuarios;
-import com.incluwed.incluwed.dto.PostagensDto;
 import com.incluwed.incluwed.dto.UsuariosDto;
-import com.incluwed.incluwed.forms.PostagensForms;
 import com.incluwed.incluwed.forms.UsuariosForms;
-import com.incluwed.incluwed.repository.*;
-
+import com.incluwed.incluwed.forms.UsuariosSenhaForms;
+import com.incluwed.incluwed.repository.EnderecosRepository;
+import com.incluwed.incluwed.repository.TelefonesRepository;
+import com.incluwed.incluwed.repository.UsuariosRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -29,10 +27,12 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.util.UriComponentsBuilder;
 
 @RestController
 @RequestMapping("/users")
+@EnableWebMvc
 public class UsuariosController {
 
     @Autowired
@@ -44,8 +44,7 @@ public class UsuariosController {
     @Autowired
     private EnderecosRepository enderecosRepository;
 
-    @Autowired
-    private PostagensRepository postagensRepository;
+    BCryptPasswordEncoder password = new BCryptPasswordEncoder();
 
     @Autowired
     private PlacesRepository placesRepository;
@@ -74,41 +73,11 @@ public class UsuariosController {
     @Transactional
     public ResponseEntity<UsuariosDto> cadastroUsuario(@RequestBody @Validated UsuariosForms form, UriComponentsBuilder uriBuilder){
         Usuarios user = form.converter();
+        user.setSenha(codificadaSenha(password, user.getSenha()));
         usuariosRepository.save(user);
         URI uri = uriBuilder.path("/users/{id}").buildAndExpand(user.getId()).toUri();
         return ResponseEntity.created(uri).body(new UsuariosDto(user));
         
-    }
-    
-    @PostMapping("/{id}/posts")
-    @Transactional
-    public ResponseEntity<PostagensDto> cadastrarPostPorUsuario(@PathVariable("id") long usuario_id, @RequestBody PostagensForms form, UriComponentsBuilder uriBuilder){
-        Optional<Usuarios> userCheck = usuariosRepository.findById(usuario_id);
-
-        if (userCheck.isPresent()){
-            Postagens post = form.converter(userCheck.get());
-            postagensRepository.save(post);
-
-            Pageable paginacao = PageRequest.of(0, 10);
-            Page<Places> getPlace = placesRepository.findByNomeLocal(post.getNomeLocal(), paginacao);
-
-            if ( getPlace.getNumberOfElements() == 0 ){
-                Places newPlace = new Places(post.getNomeLocal(), post.getEnderecoLocal(), 1, post.getNota(), post.getNota());
-                placesRepository.save(newPlace);
-
-            }else {
-                List<Places> attPlace = getPlace.toList();
-                attPlace.get(0).setNumberPosts(attPlace.get(0).getNumberPosts()+1);
-                attPlace.get(0).setNotaTotal(attPlace.get(0).getNotalTotal() + post.getNota());
-                attPlace.get(0).setNota((float) attPlace.get(0).getNotalTotal()/attPlace.get(0).getNumberPosts());
-            }
-
-            URI uri = uriBuilder.path("/posts/{id}").buildAndExpand(form.getPost_id()).toUri();
-            return ResponseEntity.created(uri).body(new PostagensDto(post));
-        }
-        
-        
-        return ResponseEntity.notFound().build();
     }
 
     @PutMapping("/{id}")
@@ -125,6 +94,25 @@ public class UsuariosController {
         return ResponseEntity.notFound().build();
     }
 
+    
+    @PutMapping("/{id}/change-pass")
+    @Transactional
+    public ResponseEntity<String> updateSenhaUsuario(@PathVariable("id") long id, @RequestBody @Validated UsuariosSenhaForms form ){
+        Optional<Usuarios> userCheck = usuariosRepository.findById(id);
+        if (userCheck.isPresent()){
+
+            if ( password.matches(form.getSenha_velha(), userCheck.get().getSenha())){
+                form.setSenha_nova(codificadaSenha(password, form.getSenha_nova()));
+                form.atualizaSenhaUsuario(id, usuariosRepository);
+                return ResponseEntity.ok("Senha alterada com sucesso.");
+            }
+           
+            return ResponseEntity.badRequest().body("Senha atual não é válida.");
+        }
+
+        return ResponseEntity.notFound().build();
+    }
+
     @DeleteMapping("/{id}")
     @Transactional
     public ResponseEntity<?> removerUsuarioPorId(@PathVariable long id){
@@ -133,10 +121,14 @@ public class UsuariosController {
             usuariosRepository.deleteById(id);
             telefonesRepository.deleteById(id);
             enderecosRepository.deleteById(id);
-            return ResponseEntity.ok().build();
+            return ResponseEntity.ok("Usuário: " + optional.get().getId() +  " deletado com sucesso!");
         }
         
         return ResponseEntity.notFound().build();
         
+    }
+
+    private String codificadaSenha(BCryptPasswordEncoder password, String senha_nova) {
+        return password.encode(senha_nova);
     }
 }

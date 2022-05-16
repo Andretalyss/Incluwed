@@ -6,8 +6,7 @@ CREATE TABLE usuarios(
     email varchar(255), 
     senha varchar(255),
     nascimento varchar(10),
-    ddd int,
-    numero varchar(20)
+    token varchar(255)
 );
 
 CREATE TABLE enderecos(
@@ -35,25 +34,14 @@ CREATE TABLE postagens(
     data_criacao TIMESTAMP 
 );
 
--- CREATE TABLE postagens(
---     id serial primary key,
---     usuario int,
---     nomelocal varchar(255),
---     titulo varchar(255),
---     lugar varchar(255),
---     conteudo varchar(255),
---     nota int,
---     dataP TIMESTAMP,
---     CONSTRAINT usuarios FOREIGN KEY (usuario) REFERENCES usuarios (id)
+-- INSERT INTO enderecos(rua, numero,bairro,cidade,estado) values(
+--     'Teste', 444, 'testeb', 'testecidade','testeestado'
 -- );
 
+-- INSERT INTO telefones(ddd, numero) values(
+--     83, '999519413'
+-- );
 
- CREATE TABLE lugares(
-     id serial primary key,
-     nome_local varchar(255),
-     nome_rua varchar(255),
-     acesso numeric(3,2),
-     data_cadastro TIMESTAMP,
-     numero_posts int ,
-     nota_total int
-);
+-- INSERT INTO usuarios(nome, sobrenome, cpf, email, senha, telefone_id, endereco_id, nascimento) values(
+--     'André', 'Talysson', '999.999.999.99','atv@gmail.com', '$2a$10$MGLlfZgOw1a9uEaqwSwvUe4ReynVlBiRFG7U/jbBnWkiECakvq.Zm', 1, 1, '1999/08/10'
+-- );

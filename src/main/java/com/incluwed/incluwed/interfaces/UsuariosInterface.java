@@ -8,6 +8,7 @@ public interface UsuariosInterface {
     public String getEmail();
     public String getSenha();
     public String getNascimento();
+    public String getToken_redif();
 
     public void setNome(String nome);
     public void setSobrenome(String sobrenome);
@@ -15,4 +16,5 @@ public interface UsuariosInterface {
     public void setEmail(String email);
     public void setSenha(String senha);
     public void setNascimento(String nascimento);
+    public void setToken_redif(String token_redif);
 }
