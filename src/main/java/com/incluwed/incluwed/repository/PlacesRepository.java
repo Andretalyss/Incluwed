@@ -5,6 +5,8 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 
+import java.util.Optional;
+
 public interface PlacesRepository extends JpaRepository<Places, Long> {
-    Page<Places> findByNomeLocal(String nomelocal, Pageable paginacao);
+    Optional<Places> findByNomeLocal(String nomelocal);
 }

@@ -46,9 +46,6 @@ public class UsuariosController {
 
     BCryptPasswordEncoder password = new BCryptPasswordEncoder();
 
-    @Autowired
-    private PlacesRepository placesRepository;
-
     @GetMapping
     public Page<UsuariosDto> listarTodosUsuarios(@RequestParam int pag, @RequestParam int qtd){
         
