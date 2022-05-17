@@ -42,7 +42,7 @@ public class SecurityConfigurations extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        http.authorizeHttpRequests()
+        http.cors().and().authorizeHttpRequests()
         .antMatchers(HttpMethod.GET, "/posts").permitAll()
         .antMatchers(HttpMethod.GET, "/posts/*").permitAll()
         .antMatchers(HttpMethod.POST, "/auth").permitAll()
@@ -53,6 +53,7 @@ public class SecurityConfigurations extends WebSecurityConfigurerAdapter {
         .and().csrf().disable()
         .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
         .and().addFilterBefore(new AutenticacaoFilter(tokenService, usuariosRepository), UsernamePasswordAuthenticationFilter.class);
+
     }
 
 }

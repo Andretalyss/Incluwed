@@ -31,7 +31,7 @@ public class TokenService {
             .setSubject(logado.getEmail())
             .setIssuedAt(dataHoje)
             .setExpiration(dataExp)
-            .signWith(SignatureAlgorithm.HS256, secret)
+            .signWith(SignatureAlgorithm.HS512, secret)
             .compact();
         
 

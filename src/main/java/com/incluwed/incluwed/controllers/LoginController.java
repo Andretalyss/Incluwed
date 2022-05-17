@@ -67,7 +67,7 @@ public class LoginController {
             MimeMessageHelper helper = new MimeMessageHelper(mensagem);
 
             helper.setFrom("incluwebcontato@gmail.com", "Support Incluweb");
-            helper.setTo("atvdiniz@gmail.com");
+            helper.setTo(form.getEmail());
             helper.setSubject("Redifinição de senha - Incluweb");
 
             String token_recup = tokenService.gerarTokenFastExpiration(form.getEmail());
