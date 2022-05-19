@@ -64,23 +64,6 @@ public class LoginController {
     public ResponseEntity<?> recuperacaoSenha(@RequestBody UsuariosLoginForm form) throws MessagingException, UnsupportedEncodingException{
         Optional<Usuarios> user = usuariosRepository.findByEmail(form.getEmail());
         if ( user.isPresent() ){
-//            MimeMessage mensagem = javaMailSender.createMimeMessage();
-//            MimeMessageHelper helper = new MimeMessageHelper(mensagem);
-//
-//            helper.setFrom("incluwebcontato@gmail.com", "Support Incluweb");
-//            helper.setTo("atvdiniz@gmail.com");
-//            helper.setSubject("Redifinição de senha - Incluweb");
-//
-//            String content = "<p>Hello,</p>"
-//            + "<p>You have requested to reset your password.</p>"
-//            + "<p>Click the link below to change your password:</p>"
-//            + "<p><a href=\"" + "http://localhost" + "\">Change my password</a></p>"
-//            + "<br>"
-//            + "<p>Ignore this email if you do remember your password, "
-//            + "or you have not made the request.</p>";
-//
-//            helper.setText(content, true);
-//            javaMailSender.send(mensagem);
             String token_recup = tokenService.gerarTokenFastExpiration(form.getEmail());
             ForgotPasswordMessage message = new ForgotPasswordMessage();
             message.sendEmail(form.getEmail(), token_recup);
@@ -88,7 +71,7 @@ public class LoginController {
             return ResponseEntity.ok(new TokenDto(token_recup, "Bearer"));
         }
 
-        return ResponseEntity.badRequest().body("Email não cadastrado!");
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Email não cadastrado!");
     }
 
     @PostMapping("/reset-pass")

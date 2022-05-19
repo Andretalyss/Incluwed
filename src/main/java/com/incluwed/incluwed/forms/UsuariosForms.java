@@ -8,6 +8,8 @@ import com.incluwed.incluwed.classes.Telefones;
 import com.incluwed.incluwed.classes.Usuarios;
 import com.incluwed.incluwed.repository.UsuariosRepository;
 import org.hibernate.validator.constraints.Length;
+
+import br.com.caelum.stella.validation.CPFValidator;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -70,6 +72,33 @@ public class UsuariosForms {
         user.setNascimento(this.nascimento);
 
         return user;
+    }
+
+    public boolean validaCpf(String cpf){
+        CPFValidator cpfValidator = new CPFValidator();
+        try {
+            cpfValidator.assertValid(cpf);
+            return true;
+        }catch(Exception e){
+            return false;
+        }
+
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public String getCpf() {
+        return cpf;
+    }
+
+    public void setCpf(String cpf) {
+        this.cpf = cpf;
     }
 
 }
