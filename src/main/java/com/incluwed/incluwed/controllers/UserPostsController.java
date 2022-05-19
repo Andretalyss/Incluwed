@@ -10,6 +10,7 @@ import com.incluwed.incluwed.forms.PostagensForms;
 import com.incluwed.incluwed.repository.PostagensRepository;
 import com.incluwed.incluwed.repository.UsuariosRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -42,7 +43,7 @@ public class UserPostsController {
         }
         
         
-        return ResponseEntity.notFound().build();
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).build();  
     }
 
     @PutMapping("/users/{id}/posts/{post_id}")
@@ -57,7 +58,7 @@ public class UserPostsController {
             return ResponseEntity.ok(new PostagensDto(post));
         }
         
-        return ResponseEntity.notFound().build();
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).build();  
     }
 
     @DeleteMapping("/users/{id}/posts/{post_id}")
@@ -70,6 +71,6 @@ public class UserPostsController {
             return ResponseEntity.ok("Postagem excluída com sucesso!");
         }
 
-        return ResponseEntity.noContent().build();
+        return ResponseEntity.status(HttpStatus.NO_CONTENT).build(); 
     }
 }

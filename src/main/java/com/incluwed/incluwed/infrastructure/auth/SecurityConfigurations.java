@@ -49,6 +49,7 @@ public class SecurityConfigurations extends WebSecurityConfigurerAdapter {
         .antMatchers(HttpMethod.POST, "/users").permitAll()
         .antMatchers(HttpMethod.POST, "/auth/forgot-pass").permitAll()
         .antMatchers(HttpMethod.POST, "/auth/reset-pass").permitAll()
+        .antMatchers("/v2/api-docs", "/configuration/**", "/swagger*/**", "/webjars/**").permitAll()
         .anyRequest().authenticated()
         .and().csrf().disable()
         .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)

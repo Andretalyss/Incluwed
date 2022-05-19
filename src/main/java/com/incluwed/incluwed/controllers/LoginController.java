@@ -85,7 +85,7 @@ public class LoginController {
             return ResponseEntity.ok(new TokenDto(token_recup, "Bearer"));
         }
 
-        return ResponseEntity.badRequest().body("Email não cadastrado!");
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Email não cadastrado!");
     }
 
     @PostMapping("/reset-pass")

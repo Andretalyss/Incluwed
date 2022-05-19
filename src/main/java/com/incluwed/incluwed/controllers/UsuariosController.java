@@ -14,6 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.validation.annotation.Validated;
@@ -62,17 +63,28 @@ public class UsuariosController {
             return ResponseEntity.ok(new UsuariosDto(user.get()));
         }
 
-        return ResponseEntity.notFound().build();  
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).build();  
     }
 
     @PostMapping
     @Transactional
     public ResponseEntity<UsuariosDto> cadastroUsuario(@RequestBody @Validated UsuariosForms form, UriComponentsBuilder uriBuilder){
-        Usuarios user = form.converter();
-        user.setSenha(codificadaSenha(password, user.getSenha()));
-        usuariosRepository.save(user);
-        URI uri = uriBuilder.path("/users/{id}").buildAndExpand(user.getId()).toUri();
-        return ResponseEntity.created(uri).body(new UsuariosDto(user));
+        Optional<Usuarios> emailCheck = usuariosRepository.findByEmail(form.getEmail());
+
+        if( !emailCheck.isPresent() ){
+
+            if(form.validaCpf(form.getCpf())){
+                Usuarios user = form.converter();
+                user.setSenha(codificadaSenha(password, user.getSenha()));
+                usuariosRepository.save(user);
+                URI uri = uriBuilder.path("/users/{id}").buildAndExpand(user.getId()).toUri();
+                return ResponseEntity.created(uri).body(new UsuariosDto(user));
+            }
+            
+            return ResponseEntity.status(HttpStatus.NOT_ACCEPTABLE).build();
+        }
+
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
         
     }
 
@@ -80,14 +92,28 @@ public class UsuariosController {
     @Transactional
     public ResponseEntity<UsuariosDto> updateUsuario(@PathVariable long id, @RequestBody @Validated UsuariosForms form, UriComponentsBuilder uriBuilder){
         Optional<Usuarios> user= usuariosRepository.findById(id);
-        if (user.isPresent()){
-            Usuarios userAtt = form.atualizaUsuario(id, usuariosRepository);
 
-            URI uri = uriBuilder.path("/users/{id}").buildAndExpand(userAtt.getId()).toUri();
-            return ResponseEntity.created(uri).body(new UsuariosDto(userAtt));
+        if (user.isPresent()){
+
+            if( user.get().getEmail().equals(form.getEmail() )){
+                Usuarios userAtt = form.atualizaUsuario(id, usuariosRepository);
+                URI uri = uriBuilder.path("/users/{id}").buildAndExpand(userAtt.getId()).toUri();
+                return ResponseEntity.created(uri).body(new UsuariosDto(userAtt));
+            }
+            else {
+                Optional<Usuarios> emailCheck = usuariosRepository.findByEmail(form.getEmail());
+                if( !emailCheck.isPresent() ){
+                    Usuarios userAtt = form.atualizaUsuario(id, usuariosRepository);
+                    URI uri = uriBuilder.path("/users/{id}").buildAndExpand(userAtt.getId()).toUri();
+                    return ResponseEntity.created(uri).body(new UsuariosDto(userAtt));
+                }
+
+                return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
+            }
+            
         }
 
-        return ResponseEntity.notFound().build();
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).build();  
     }
 
     
@@ -106,7 +132,7 @@ public class UsuariosController {
             return ResponseEntity.badRequest().body("Senha atual não é válida.");
         }
 
-        return ResponseEntity.notFound().build();
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).build();  
     }
 
     @DeleteMapping("/{id}")
@@ -120,7 +146,7 @@ public class UsuariosController {
             return ResponseEntity.ok("Usuário: " + optional.get().getId() +  " deletado com sucesso!");
         }
         
-        return ResponseEntity.notFound().build();
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).build();  
         
     }
 
