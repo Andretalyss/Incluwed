@@ -8,6 +8,7 @@ public class TokenDto {
     public TokenDto(String token, String tipo, long id){
         this.token = token;
         this.tipo = tipo;
+        this.id = id;
     }
 
     public String getToken() {
