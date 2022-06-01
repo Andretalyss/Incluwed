@@ -13,6 +13,7 @@ import com.incluwed.incluwed.dto.TokenDto;
 import com.incluwed.incluwed.forms.UsuariosLoginForm;
 import com.incluwed.incluwed.forms.UsuariosResetPasswordForm;
 import com.incluwed.incluwed.infrastructure.auth.TokenService;
+import com.incluwed.incluwed.messages.ForgotPasswordMessage;
 import com.incluwed.incluwed.repository.UsuariosRepository;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -64,24 +65,9 @@ public class LoginController {
     public ResponseEntity<?> recuperacaoSenha(@RequestBody UsuariosLoginForm form) throws MessagingException, UnsupportedEncodingException{
         Optional<Usuarios> user = usuariosRepository.findByEmail(form.getEmail());
         if ( user.isPresent() ){
-            MimeMessage mensagem = javaMailSender.createMimeMessage();
-            MimeMessageHelper helper = new MimeMessageHelper(mensagem);
-
-            helper.setFrom("incluwebcontato@gmail.com", "Support Incluweb");
-            helper.setTo(form.getEmail());
-            helper.setSubject("Redifinição de senha - Incluweb");
-
             String token_recup = tokenService.gerarTokenFastExpiration(form.getEmail());
-            String content = "<p>Hello,</p>"
-            + "<p>You have requested to reset your password.</p>"
-            + "<p>Click the link below to change your password:</p>"
-            + "<p><a href=\"" + "http://localhost" + "\">Change my password</a></p>"
-            + "<br>"
-            + "<p>Ignore this email if you do remember your password, "
-            + "or you have not made the request.</p>";
-            
-            helper.setText(content, true);
-            javaMailSender.send(mensagem);
+            ForgotPasswordMessage message = new ForgotPasswordMessage();
+            message.sendEmail(form.getEmail(), token_recup);
             user.get().setToken_redif(token_recup);
             return ResponseEntity.ok(new TokenDto(token_recup, "Bearer", user.get().getId()));
         }
