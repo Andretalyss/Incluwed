@@ -50,11 +50,12 @@ public class LoginController {
     @PostMapping
     public ResponseEntity<?> autenticar(@RequestBody UsuariosLoginForm form) throws AuthenticationException{
         UsernamePasswordAuthenticationToken dadosLogin = form.convert();
+        Usuarios userId = usuariosRepository.findByEmail(form.getEmail()).get();
         
         Authentication authentication = authenticationManager.authenticate(dadosLogin);
         String token = tokenService.gerarToken(authentication);
 
-        return ResponseEntity.ok(new TokenDto(token, "Bearer"));
+        return ResponseEntity.ok(new TokenDto(token, "Bearer", userId.getId()));
 
     }
 
@@ -82,7 +83,7 @@ public class LoginController {
             helper.setText(content, true);
             javaMailSender.send(mensagem);
             user.get().setToken_redif(token_recup);
-            return ResponseEntity.ok(new TokenDto(token_recup, "Bearer"));
+            return ResponseEntity.ok(new TokenDto(token_recup, "Bearer", user.get().getId()));
         }
 
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Email não cadastrado!");
