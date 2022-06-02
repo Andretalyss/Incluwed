@@ -6,54 +6,60 @@ import com.incluwed.incluwed.classes.Usuarios;
 import org.springframework.data.domain.Page;
 
 public class UsuariosDto {
-    private long userId;
-    private String userNome;
-    private String userEmail;
+    private long id;
+    private String nome;
+    private String email;
     private Enderecos endereco;
     private Telefones telefone;
+    private String sobrenome;
+    private String cpf;
+    private String senha;
+    private String nascimento;
 
     public UsuariosDto(Usuarios user){
-        this.userId = user.getId();
-        this.userNome = user.getNome();
-        this.userEmail = user.getEmail();
+        this.id = user.getId();
+        this.nome = user.getNome();
+        this.sobrenome = user.getSobrenome();
+        this.email = user.getEmail();
         this.telefone = user.getTelefone();
         this.endereco = user.getEndereco();
+        this.cpf = user.getCpf();
+        this.senha = user.getSenha();
+        this.nascimento = user.getNascimento();
     }
 
     public static UsuariosDto returnUsuarioDto(Usuarios user){
         UsuariosDto userConvert = new UsuariosDto(user);
         return userConvert;
-
-
     }
 
     public static Page<UsuariosDto> convert(Page<Usuarios> user){
         return user.map(UsuariosDto::new);
     }
     
-    public long getUserId(){
-        return userId;
+    public long getId(){
+        return id;
     }
 
 
-    public String getUserNome(){
-        return userNome;
+    public String getNome(){
+        return nome;
     }
 
-    public String getUserEmail(){
-        return userEmail;
+    public String getEmail(){
+        return email;
     }
 
-    public void setUserId(long userId){
-        this.userId = userId;
+    public void setId(long id){
+        this.id = id;
     }
 
-    public void setUserNome(String userNome){
-        this.userNome = userNome;
+    public void setNome(String nome){
+        this.nome = nome;
     }
 
-    public void setUserEmail(String userEmail){
-        this.userEmail = userEmail;
+    public void setEmail(String email){
+        this.email = email;
     }
 
     public Enderecos getEndereco() {
@@ -70,6 +76,38 @@ public class UsuariosDto {
 
     public void setTelefone(Telefones telefone) {
         this.telefone = telefone;
+    }
+
+    public String getSobrenome() {
+        return sobrenome;
+    }
+
+    public void setSobrenome(String sobrenome) {
+        this.sobrenome = sobrenome;
+    }
+
+    public String getCpf() {
+        return cpf;
+    }
+
+    public void setCpf(String cpf) {
+        this.cpf = cpf;
+    }
+
+    public String getSenha(){
+        return senha;
+    }
+
+    public void setSenha(String senha) {
+        this.senha = senha;
+    }
+
+    public String getNascimento(){
+        return nascimento;
+    }
+
+    public void setNascimento(String nascimento){
+        this.nascimento = nascimento;
     }
 
 }
