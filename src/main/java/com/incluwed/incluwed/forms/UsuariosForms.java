@@ -6,6 +6,8 @@ import javax.validation.constraints.Size;
 import com.incluwed.incluwed.classes.Enderecos;
 import com.incluwed.incluwed.classes.Telefones;
 import com.incluwed.incluwed.classes.Usuarios;
+import com.incluwed.incluwed.repository.EnderecosRepository;
+import com.incluwed.incluwed.repository.TelefonesRepository;
 import com.incluwed.incluwed.repository.UsuariosRepository;
 import org.hibernate.validator.constraints.Length;
 
@@ -62,13 +64,11 @@ public class UsuariosForms {
 
     public Usuarios atualizaUsuario(long id, UsuariosRepository usuariosRepository){
         Usuarios user = usuariosRepository.getById(id);
-        
+
         user.setNome(this.nome);
         user.setSobrenome(this.sobrenome);
         user.setEmail(this.email);
         user.setCpf(this.cpf);
-        user.setTelefone(telefone);
-        user.setEndereco(endereco);
         user.setNascimento(this.nascimento);
 
         return user;

@@ -23,6 +23,10 @@ public class Telefones implements TelefonesInterface {
 
     public Telefones(){}
     
+    public long getTelefone_id() {
+        return telefone_id;
+    }
+    
     public int getDdd() {
         return ddd;
     }

@@ -27,6 +27,10 @@ public class Enderecos implements EnderecosInterface {
 
     public Enderecos(){}
 
+    public long getEndereco_id() {
+        return endereco_id;
+    }
+    
     @Override
     public String getRua() {
         return rua;

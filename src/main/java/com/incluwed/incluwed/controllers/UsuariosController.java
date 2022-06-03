@@ -4,8 +4,15 @@ import java.net.URI;
 import java.util.List;
 import java.util.Optional;
 import javax.transaction.Transactional;
+
+import com.incluwed.incluwed.classes.Enderecos;
+import com.incluwed.incluwed.classes.Telefones;
 import com.incluwed.incluwed.classes.Usuarios;
+import com.incluwed.incluwed.dto.EnderecosDto;
+import com.incluwed.incluwed.dto.TelefonesDto;
 import com.incluwed.incluwed.dto.UsuariosDto;
+import com.incluwed.incluwed.forms.UsuariosAttAddressForms;
+import com.incluwed.incluwed.forms.UsuariosAttTelForms;
 import com.incluwed.incluwed.forms.UsuariosForms;
 import com.incluwed.incluwed.forms.UsuariosSenhaForms;
 import com.incluwed.incluwed.repository.EnderecosRepository;
@@ -116,6 +123,41 @@ public class UsuariosController {
 
         return ResponseEntity.status(HttpStatus.NOT_FOUND).build();  
     }
+
+    @PutMapping("/{id}/address")
+    @Transactional
+    public ResponseEntity<EnderecosDto> updateUsuarioAddress(@PathVariable long id, @RequestBody @Validated UsuariosAttAddressForms form, UriComponentsBuilder uriBuilder){
+        Optional<Usuarios> user= usuariosRepository.findById(id);
+
+        if (user.isPresent()){
+
+            Enderecos addressAtt = form.atualizaAddress(id, enderecosRepository);
+            URI uri = uriBuilder.path("/users/{id}").buildAndExpand(addressAtt.getEndereco_id()).toUri();
+            return ResponseEntity.created(uri).body(new EnderecosDto(addressAtt));
+    
+            
+        }
+
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).build();  
+    }
+
+    @PutMapping("/{id}/tel")
+    @Transactional
+    public ResponseEntity<TelefonesDto> updateUsuarioTel(@PathVariable long id, @RequestBody @Validated UsuariosAttTelForms form, UriComponentsBuilder uriBuilder){
+        Optional<Usuarios> user= usuariosRepository.findById(id);
+
+        if (user.isPresent()){
+
+            Telefones telAtt = form.atualizaTelefone(id, telefonesRepository);
+            URI uri = uriBuilder.path("/users/{id}").buildAndExpand(telAtt.getTelefone_id()).toUri();
+            return ResponseEntity.created(uri).body(new TelefonesDto(telAtt));
+    
+            
+        }
+
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).build();  
+    }
+
 
     
     @PutMapping("/{id}/change-pass")
