@@ -1,7 +1,7 @@
 FROM openjdk:11
 
-RUN apk update && apk upgrade && apk add --no-cache curl openssl ca-certificates wget
-RUN apk add --no-cache tzdata
+RUN apt update && apt upgrade && apt install -y --no-cache curl openssl ca-certificates wget
+RUN apt install -y --no-cache tzdata
 ENV TZ America/Recife
 
 COPY target/*.jar incluwed.jar
