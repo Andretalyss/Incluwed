@@ -45,17 +45,17 @@ public class UserPostsController {
         if (userCheck.isPresent()){
             Postagens post = form.converter(userCheck.get());
             Optional<Places> place = placesRepository.findByNomeLocal(post.getNomeLocal());
-
-            if (place.get().getNumberPosts() == 0){
-                Places newPlace = new Places(post.getNomeLocal(), post.getEnderecoLocal(), 1, post.getNota(), post.getNota());
-                placesRepository.save(newPlace);
-
-            }else {
-                place.get().setNumberPosts(place.get().getNumberPosts() + 1);
-                place.get().setNotaTotal(place.get().getNotalTotal() + post.getNota());
-                place.get().setNota((float) place.get().getNotalTotal()/place.get().getNumberPosts());
-
-            }
+//
+//            if (place.get().getNumberPosts() == 0){
+//                Places newPlace = new Places(post.getNomeLocal(), post.getEnderecoLocal(), 1, post.getNota(), post.getNota());
+//                placesRepository.save(newPlace);
+//
+//            }else {
+//                place.get().setNumberPosts(place.get().getNumberPosts() + 1);
+//                place.get().setNotaTotal(place.get().getNotalTotal() + post.getNota());
+//                place.get().setNota((float) place.get().getNotalTotal()/place.get().getNumberPosts());
+//
+//            }
 
             postagensRepository.save(post);
 
