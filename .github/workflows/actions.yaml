@@ -38,5 +38,6 @@ jobs:
     steps:
       - name: Deploy do backend na EC2 
         run: |
+          sudo docker rm -f backend
           sudo docker rmi andrezin10/back-incluwed:1.0
           sudo docker run -d -p 8080:8080 -e HOST=${{ secrets.HOST }} andrezin10/back-incluwed:1.0
