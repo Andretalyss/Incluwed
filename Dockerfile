@@ -1,4 +1,4 @@
-FROM openjdk:11-alpine
+FROM openjdk:11
 
 RUN apk update && apk upgrade && apk add --no-cache curl openssl ca-certificates wget
 RUN apk add --no-cache tzdata
