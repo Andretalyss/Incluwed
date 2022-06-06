@@ -43,8 +43,11 @@ public class PostagensController {
 
         if( usuario_id != null ){
             Optional<Usuarios> usuario = usuariosRepository.findById(usuario_id);
-            posts = postagensRepository.findByUsuario(usuario.get(), pagination);
-            return PostagensDto.convertToDto(posts);
+            if(usuario.isPresent()){
+                posts = postagensRepository.findByUsuario(usuario.get(), pagination);
+                return PostagensDto.convertToDto(posts);
+
+            }
         }
 
         posts = postagensRepository.findAll(pagination);
