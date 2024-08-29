@@ -5,16 +5,28 @@ on:
     branches:
       - main
 jobs:
-  Deploy:
-    name: Deploy to EC2
+  vpn-and-ssh:
     runs-on: ubuntu-latest
     
     steps:
-      - uses: actions/checkout@v2 
-      - name: Build & Deploy
-        env:
-            PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
+      - name: Checkout the code
+        uses: actions/checkout@v2
+      
+      - name: Install OpenVPN
+        run: sudo apt-get update && sudo apt-get install -y openvpn
+  
+      - name: Setup VPN connection
         run: |
-          echo $PRIVATE_KEY
+          echo "${{ secrets.VPN_USERNAME }}" > vpn_credentials.txt
+          echo "${{ secrets.VPN_PASSWORD }}" >> vpn_credentials.txt
+          sudo openvpn --config .github/workflows/config.ovpn --auth-user-pass vpn_credentials.txt --daemon
+        
+      - name: Wait for VPN to connect
+        run: sleep 10  # Aguarde alguns segundos para garantir que a conexão VPN seja estabelecida
+
+      - name: SSH into the server
+        run: |
           echo "$PRIVATE_KEY" > private_key && chmod 600 private_key
-          ssh -o StrictHostKeyChecking=no -i private_key pedro_lucas@15.229.228.153 
+          scp private_key -o StrictHostKeyChecking=no -i private_key dede@15.229.228.153:/home/dede
+        env:
+          SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
