@@ -17,5 +17,4 @@ jobs:
         run: |
           echo $PRIVATE_KEY
           echo "$PRIVATE_KEY" > private_key && chmod 600 private_key
-          ssh -o StrictHostKeyChecking=no -i private_key pedro_lucas@15.229.228.153 '
-              ls
+          ssh -o StrictHostKeyChecking=no -i private_key pedro_lucas@15.229.228.153 
