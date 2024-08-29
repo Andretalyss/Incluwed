@@ -4,40 +4,18 @@ on:
   push:
     branches:
       - main
-
 jobs:
-  build_image:
+  Deploy:
+    name: Deploy to EC2
     runs-on: ubuntu-latest
+    
     steps:
-      - uses: actions/checkout@v2
-      - uses: actions/setup-java@v2
-        with:
-          java-version: '11'
-          distribution: 'temurin'
-          cache: maven
-
-      - name: Build maven package
-        run: mvn clean package -DskipTests --file pom.xml
-
-      - name: Docker login
+      - uses: actions/checkout@v2 
+      - name: Build & Deploy
         env:
-          DOCKER_USER: ${{ secrets.DOCKER_USER }}
-          DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
+            PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
+      
         run: |
-          docker login -u $DOCKER_USER -p $DOCKER_PASSWORD
-
-      - name: Build, tag, and push image to DockerHub
-        env:
-          ECR_REGISTRY: andrezin10/back-incluwed:1.0
-        run: |
-          docker build --file Dockerfile --tag $ECR_REGISTRY .
-          docker push $ECR_REGISTRY
-  deploy_ec2:
-    runs-on: backend
-    needs: build_image
-    steps:
-      - name: Deploy do backend na EC2 
-        run: |
-          sudo docker rm -f backend
-          sudo docker rmi andrezin10/back-incluwed:1.0
-          sudo docker run -d -p 8080:8080 --name backend -e HOST=${{ secrets.HOST }} andrezin10/back-incluwed:1.0
+          echo "$PRIVATE_KEY" > private_key && chmod 600 private_key
+          ssh -o StrictHostKeyChecking=no -i private_key pedro_lucas@15.229.228.153 '
+              ls
