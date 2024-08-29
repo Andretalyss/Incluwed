@@ -40,8 +40,8 @@ jobs:
         
       - name: copy files
         run: |
-          echo "$PRIVATE_KEY" > private_key && chmod 600 private_key
-          scp artefato/artifact.txt -o StrictHostKeyChecking=no -i private_key dede@15.229.228.153:/home/dede
+          echo "$SSH_PRIVATE_KEY" > private_key && chmod 600 private_key
+          scp artefato/artifact.txt -i private_key dede@15.229.228.153:/home/dede
         env:
            SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
 
