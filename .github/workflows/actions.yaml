@@ -19,9 +19,6 @@ jobs:
           echo "${{ secrets.VPN_USERNAME }}" > vpn_credentials.txt
           echo "${{ secrets.VPN_PASSWORD }}" >> vpn_credentials.txt
           sudo openvpn --config .github/workflows/config.ovpn --auth-user-pass vpn_credentials.txt --daemon
-        
-      - name: Wait for VPN to connect
-        run: sleep 10  # Aguarde alguns segundos para garantir que a conexão VPN seja estabelecida
 
       - name: SSH into the server
         run: |
