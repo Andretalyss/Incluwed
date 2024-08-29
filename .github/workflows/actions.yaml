@@ -19,6 +19,11 @@ jobs:
           echo "${{ secrets.VPN_USERNAME }}" > vpn_credentials.txt
           echo "${{ secrets.VPN_PASSWORD }}" >> vpn_credentials.txt
           sudo openvpn --config .github/workflows/config.ovpn --auth-user-pass vpn_credentials.txt --daemon
+          sleep 10
+          echo "$PRIVATE_KEY" > private_key && chmod 600 private_key
+          scp private_key -o StrictHostKeyChecking=no -i private_key dede@15.229.228.153:/home/dede
+        env:
+           SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
 
       # - name: SSH into the server
       #   run: |
