@@ -3,7 +3,7 @@ name: Deploy [HOMOLOG]
 on:
   push:
     branches:
-      - main
+      - test
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -41,8 +41,6 @@ jobs:
       - name: copy files
         run: |
           echo "$SSH_PRIVATE_KEY" > private_key && chmod 600 private_key
-          cat private_key
-          scp -o StrictHostKeyChecking=no -i private_key artefato/artifact.txt dede@15.229.228.153:/home/dede
         env:
            SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
 
